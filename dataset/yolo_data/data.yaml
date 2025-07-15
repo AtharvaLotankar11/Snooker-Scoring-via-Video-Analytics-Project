@@ -1,0 +1,4 @@
+train: C:/Users/Manoj/Downloads/Snooker/dataset/yolo_data/images/train
+val: C:/Users/Manoj/Downloads/Snooker/dataset/yolo_data/images/train
+nc: 8
+names: ['cue_ball', 'yellow_ball', 'red_ball', 'orange_ball', 'green_ball', 'pink_ball', 'blue_ball', 'black_ball']

@@ -1,0 +1,8 @@
+cue_ball
+yellow_ball
+red_ball
+orange_ball
+green_ball
+pink_ball
+blue_ball
+black_ball
