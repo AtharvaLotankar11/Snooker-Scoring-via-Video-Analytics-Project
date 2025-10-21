@@ -396,6 +396,11 @@ def serve_team_member_image(filename):
     """Serve team member images from team-members directory"""
     return send_from_directory('team-members', filename)
 
+@app.route('/feature-icons/<filename>')
+def serve_feature_icon(filename):
+    """Serve feature icons from feature-icons directory"""
+    return send_from_directory('feature-icons', filename)
+
 @app.route('/static/<path:filename>')
 def serve_static(filename):
     """Explicitly serve static files to ensure consistency"""
@@ -426,6 +431,4 @@ if __name__ == '__main__':
     print("📊 System Status:", detection_api.get_system_status())
     print("🌐 Access the application at:")
     print("   • http://localhost:5000")
-    print("   • http://127.0.0.1:5000")
-    print("   • http://0.0.0.0:5000")
     app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)

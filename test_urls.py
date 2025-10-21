@@ -51,8 +51,7 @@ def main():
     print("=" * 50)
     
     urls_to_test = [
-        "http://localhost:5000",
-        "http://127.0.0.1:5000"
+        "http://localhost:5000"
     ]
     
     results = []
