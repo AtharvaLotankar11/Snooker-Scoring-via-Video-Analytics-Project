@@ -1,0 +1,226 @@
+/**
+ * Text Contrast Fix - Snooker Detection Pro
+ * Ensures proper text contrast in both light and dark themes
+ * Fixes visibility issues with faint text
+ */
+
+/* ===== ENHANCED TEXT CONTRAST ===== */
+
+/* Light theme text enhancements */
+[data-theme="light"] {
+    --text-primary: #000000 !important;        /* Pure black for maximum contrast */
+    --text-secondary: #1e293b !important;      /* Dark gray for secondary text */
+    --text-tertiary: #334155 !important;       /* Medium gray for tertiary text */
+    --text-muted: #475569 !important;          /* Darker muted text */
+}
+
+/* Dark theme text enhancements */
+[data-theme="dark"] {
+    --text-primary: #ffffff !important;        /* Pure white for maximum contrast */
+    --text-secondary: #e2e8f0 !important;      /* Light gray for secondary text */
+    --text-tertiary: #cbd5e1 !important;       /* Medium light gray for tertiary text */
+    --text-muted: #94a3b8 !important;          /* Lighter muted text */
+}
+
+/* ===== SPECIFIC ELEMENT FIXES ===== */
+
+/* Ensure all text elements use proper contrast */
+body,
+p,
+span,
+div,
+h1, h2, h3, h4, h5, h6,
+.text-primary,
+.card-title,
+.feature-title,
+.nav-link,
+.btn {
+    color: var(--text-primary) !important;
+}
+
+/* Secondary text elements */
+.text-secondary,
+.card-subtitle,
+.card-text,
+.feature-description,
+.text-muted {
+    color: var(--text-secondary) !important;
+}
+
+/* Specific fixes for hero section */
+.hero-section h1,
+.hero-section .display-4,
+.hero-section .display-5 {
+    color: var(--text-primary) !important;
+    text-shadow: none !important;
+}
+
+.hero-section p,
+.hero-section .lead {
+    color: var(--text-secondary) !important;
+}
+
+/* Feature cards text fixes */
+.card-feature .feature-title {
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+}
+
+.card-feature .feature-description {
+    color: var(--text-secondary) !important;
+}
+
+/* Navigation text fixes */
+.navbar-brand-themed,
+.nav-link-themed {
+    color: var(--text-primary) !important;
+}
+
+.nav-link-themed:hover {
+    color: var(--brand-green-secondary) !important;
+}
+
+/* Button text fixes */
+.btn-primary {
+    color: #ffffff !important;
+    background-color: var(--brand-blue-primary) !important;
+}
+
+.btn-secondary {
+    color: #000000 !important;
+    background-color: var(--brand-green-secondary) !important;
+}
+
+.btn-outline-primary {
+    color: var(--brand-blue-primary) !important;
+    border-color: var(--brand-blue-primary) !important;
+}
+
+.btn-outline-secondary {
+    color: var(--brand-green-secondary) !important;
+    border-color: var(--brand-green-secondary) !important;
+}
+
+/* Stats and metrics text */
+.stat-value {
+    color: var(--text-primary) !important;
+    font-weight: 800 !important;
+}
+
+.stat-label {
+    color: var(--text-secondary) !important;
+    font-weight: 600 !important;
+}
+
+/* Alert and badge text */
+.alert {
+    color: var(--text-primary) !important;
+}
+
+.badge {
+    color: #ffffff !important;
+}
+
+/* Form elements */
+.form-label,
+.form-control {
+    color: var(--text-primary) !important;
+}
+
+.form-control::placeholder {
+    color: var(--text-muted) !important;
+    opacity: 0.7;
+}
+
+/* ===== BRAND COLOR TEXT ===== */
+.text-brand-blue {
+    color: var(--brand-blue-primary) !important;
+}
+
+.text-brand-green {
+    color: var(--brand-green-secondary) !important;
+}
+
+/* ===== GRADIENT TEXT FIXES ===== */
+.gradient-champion,
+.gradient-energy,
+.gradient-victory,
+.gradient-action {
+    background: linear-gradient(45deg, var(--brand-blue-primary), var(--brand-green-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Fallback for browsers that don't support background-clip: text */
+@supports not (-webkit-background-clip: text) {
+    .gradient-champion,
+    .gradient-energy,
+    .gradient-victory,
+    .gradient-action {
+        color: var(--brand-blue-primary) !important;
+        background: none;
+    }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+
+/* High contrast mode overrides */
+@media (prefers-contrast: high) {
+    [data-theme="light"] {
+        --text-primary: #000000 !important;
+        --text-secondary: #000000 !important;
+        --bg-primary: #ffffff !important;
+    }
+    
+    [data-theme="dark"] {
+        --text-primary: #ffffff !important;
+        --text-secondary: #ffffff !important;
+        --bg-primary: #000000 !important;
+    }
+    
+    .gradient-champion,
+    .gradient-energy,
+    .gradient-victory,
+    .gradient-action {
+        -webkit-text-fill-color: unset !important;
+        background: none !important;
+        color: var(--text-primary) !important;
+    }
+}
+
+/* ===== RESPONSIVE TEXT SCALING ===== */
+@media (max-width: 768px) {
+    .hero-section h1,
+    .display-4,
+    .display-5 {
+        font-size: 2.5rem !important;
+        line-height: 1.2 !important;
+    }
+    
+    .lead {
+        font-size: 1.1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section h1,
+    .display-4,
+    .display-5 {
+        font-size: 2rem !important;
+    }
+    
+    .lead {
+        font-size: 1rem !important;
+    }
+}
+
+/* ===== DEBUGGING HELPERS ===== */
+/* Uncomment for debugging text contrast issues */
+/*
+.debug-text-contrast * {
+    background: rgba(255, 0, 0, 0.1) !important;
+    border: 1px solid red !important;
+}
+*/

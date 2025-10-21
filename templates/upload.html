@@ -1,0 +1,408 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Video - Snooker Detection Pro{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold mb-4 gradient-champion">
+                    <i class="fas fa-rocket me-3 animate-victory text-brand-green"></i>
+                    Ready to Analyze Your Game?
+                </h1>
+                <p class="lead mb-4 text-secondary" style="font-size: 1.3rem;">
+                    🎯 Drop your video and watch the <strong class="text-brand-blue">magic happen</strong>! 
+                    <br>
+                    Our AI will dissect every shot, track every ball, and give you 
+                    <em class="text-brand-green">insights that pros use</em>.
+                </p>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="alert-success-themed">
+                            <i class="fas fa-zap me-2"></i>
+                            <strong>Lightning Fast:</strong> Most videos analyzed in under 30 seconds!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Form -->
+            <div class="card-base card-energy p-4 mb-4">
+                <div class="card-logo-watermark logo-1"></div>
+                <form id="uploadForm" action="{{ url_for('analyze_video') }}" method="post" enctype="multipart/form-data">
+                    <!-- File Upload Area -->
+                    <div class="form-file-label upload-area-motivating mb-4" id="uploadArea">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt form-file-icon animate-victory gradient-energy"></i>
+                            <h4 class="form-file-text text-primary">
+                                🎬 Drop your game footage here or click to browse
+                            </h4>
+                            <p class="form-file-hint text-secondary" style="font-size: 1.1rem;">
+                                <strong>Supported formats:</strong> MP4, AVI, MOV, MKV, WEBM<br>
+                                <strong>Maximum size:</strong> 500MB | <strong>Processing time:</strong> ~30 seconds
+                            </p>
+                            <input type="file" id="videoFile" name="video" accept=".mp4,.avi,.mov,.mkv,.webm" class="form-file-input">
+                            <button type="button" class="btn-base btn-energy btn-lg animate-energy" onclick="document.getElementById('videoFile').click()" style="min-width: 200px;">
+                                <i class="fas fa-folder-open me-2"></i>Choose Your Video
+                            </button>
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-shield-alt me-1"></i>Your videos are processed securely and never stored permanently
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Info -->
+                    <div id="fileInfo" class="d-none mb-4">
+                        <div class="card-base card-victory p-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h6 class="mb-1 text-primary" id="fileName">No file selected</h6>
+                                    <small class="text-secondary" id="fileSize">0 MB</small>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <button type="button" class="btn-base btn-outline-themed btn-sm" onclick="clearFile()">
+                                        <i class="fas fa-times me-1"></i>Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Options -->
+                    <div class="card-base card-champion p-4 mb-4">
+                        <div class="card-logo-watermark logo-2"></div>
+                        <h5 class="mb-4 text-brand-blue">
+                            <i class="fas fa-sliders-h me-2"></i>🎛️ Customize Your Analysis
+                        </h5>
+                        <div class="alert-info-themed mb-4">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Pro Tip:</strong> Start with default settings for best results, then experiment!
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label-themed">Detection Confidence</label>
+                                <select class="form-control-themed" id="confidenceThreshold">
+                                    <option value="0.2">Low (0.2) - More detections</option>
+                                    <option value="0.3" selected>Medium (0.3) - Balanced</option>
+                                    <option value="0.5">High (0.5) - Fewer, more confident</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label-themed">Processing Mode</label>
+                                <select class="form-control-themed" id="processingMode">
+                                    <option value="fast" selected>Fast - Every 5th frame</option>
+                                    <option value="balanced">Balanced - Every 3rd frame</option>
+                                    <option value="detailed">Detailed - Every frame</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label class="form-label-inline">
+                                    <input class="form-checkbox" type="checkbox" id="enableTracking" checked>
+                                    <span>Enable Ball Tracking</span>
+                                </label>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label-inline">
+                                    <input class="form-checkbox" type="checkbox" id="enableCalibration" checked>
+                                    <span>Auto Table Calibration</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn-base btn-champion btn-xl animate-energy" id="analyzeBtn" disabled>
+                            <i class="fas fa-rocket me-2"></i>🚀 Launch Analysis Now!
+                        </button>
+                        <div class="text-center mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>Average processing time: 15-45 seconds
+                                <span class="mx-2">•</span>
+                                <i class="fas fa-chart-line me-1"></i>Detailed results with visualizations
+                            </small>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Progress Section (Hidden initially) -->
+            <div id="progressSection" class="d-none">
+                <div class="card-base card-action p-4">
+                    <h5 class="mb-3">
+                        <i class="fas fa-spinner fa-spin me-2"></i>Processing Video...
+                    </h5>
+                    
+                    <div class="progress-themed mb-3">
+                        <div class="progress-bar-themed" id="progressBar" style="width: 0%"></div>
+                    </div>
+                    
+                    <div class="stats-grid text-center">
+                        <div class="stat-item stat-energy">
+                            <div class="stat-label">Frames Processed</div>
+                            <div class="stat-value" id="framesProcessed">0</div>
+                        </div>
+                        <div class="stat-item stat-victory">
+                            <div class="stat-label">Balls Detected</div>
+                            <div class="stat-value" id="ballsDetected">0</div>
+                        </div>
+                        <div class="stat-item stat-champion">
+                            <div class="stat-label">Processing Speed</div>
+                            <div class="stat-value" id="processingSpeed">0 fps</div>
+                        </div>
+                        <div class="stat-item stat-energy">
+                            <div class="stat-label">Estimated Time</div>
+                            <div class="stat-value" id="estimatedTime">--:--</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn-base btn-outline-themed" onclick="cancelAnalysis()">
+                            <i class="fas fa-stop me-2"></i>Cancel Analysis
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Videos Section -->
+            <div class="card-base card-champion p-4">
+                <h5 class="mb-4 text-brand-blue">
+                    <i class="fas fa-play-circle me-2"></i>🎥 Try Our Demo Videos
+                </h5>
+                <p class="text-secondary mb-4" style="font-size: 1.1rem;">
+                    <strong>New to the system?</strong> No worries! Test drive our AI with these 
+                    <em class="text-brand-green">professionally shot</em> sample videos.
+                </p>
+                <div class="alert-warning-themed mb-4">
+                    <i class="fas fa-star me-2"></i>
+                    <strong>Perfect for beginners:</strong> See exactly what our system can do!
+                </div>
+                
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card-base card-energy p-3">
+                            <h6 class="mb-2 text-primary">Sample Break Shot</h6>
+                            <p class="small text-secondary mb-3">
+                                Professional break shot with multiple ball movements and potting.
+                            </p>
+                            <button class="btn-base btn-primary-themed btn-sm" onclick="useSampleVideo('break')">
+                                <i class="fas fa-play me-1"></i>Use This Video
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card-base card-victory p-3">
+                            <h6 class="mb-2 text-primary">Training Session</h6>
+                            <p class="small text-secondary mb-3">
+                                Practice shots with various ball positions and movements.
+                            </p>
+                            <button class="btn-base btn-secondary-themed btn-sm" onclick="useSampleVideo('training')">
+                                <i class="fas fa-play me-1"></i>Use This Video
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let selectedFile = null;
+    let analysisInProgress = false;
+
+    // File upload handling
+    document.getElementById('videoFile').addEventListener('change', handleFileSelect);
+    
+    // Drag and drop handling
+    const uploadArea = document.getElementById('uploadArea');
+    
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            const file = files[0];
+            if (isValidVideoFile(file)) {
+                document.getElementById('videoFile').files = files;
+                handleFileSelect({ target: { files: [file] } });
+            } else {
+                alert('Please select a valid video file (MP4, AVI, MOV, MKV, WEBM)');
+            }
+        }
+    });
+
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (file && isValidVideoFile(file)) {
+            selectedFile = file;
+            
+            // Show file info
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = formatFileSize(file.size);
+            document.getElementById('fileInfo').classList.remove('d-none');
+            
+            // Enable analyze button
+            document.getElementById('analyzeBtn').disabled = false;
+            
+            // Update upload area
+            uploadArea.innerHTML = `
+                <div class="text-center">
+                    <i class="fas fa-check-circle display-1 text-success mb-3"></i>
+                    <h4 class="text-success">File Ready for Analysis</h4>
+                    <p class="text-muted">${file.name}</p>
+                </div>
+            `;
+        }
+    }
+
+    function isValidVideoFile(file) {
+        const validTypes = ['video/mp4', 'video/avi', 'video/quicktime', 'video/x-msvideo', 'video/webm'];
+        const validExtensions = ['.mp4', '.avi', '.mov', '.mkv', '.webm'];
+        
+        return validTypes.includes(file.type) || 
+               validExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+    }
+
+    function clearFile() {
+        selectedFile = null;
+        document.getElementById('videoFile').value = '';
+        document.getElementById('fileInfo').classList.add('d-none');
+        document.getElementById('analyzeBtn').disabled = true;
+        
+        // Reset upload area
+        uploadArea.innerHTML = `
+            <div class="upload-content">
+                <i class="fas fa-cloud-upload-alt display-1 text-warning mb-3"></i>
+                <h4 class="mb-3">Drop your video here or click to browse</h4>
+                <p class="text-muted mb-3">
+                    Supported formats: MP4, AVI, MOV, MKV, WEBM<br>
+                    Maximum file size: 500MB
+                </p>
+                <input type="file" id="videoFile" name="video" accept=".mp4,.avi,.mov,.mkv,.webm" class="d-none">
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('videoFile').click()">
+                    <i class="fas fa-folder-open me-2"></i>Choose File
+                </button>
+            </div>
+        `;
+    }
+
+    // Form submission handling
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        if (!selectedFile) {
+            e.preventDefault();
+            alert('Please select a video file first.');
+            return;
+        }
+        
+        if (analysisInProgress) {
+            e.preventDefault();
+            return;
+        }
+        
+        // Show progress section
+        document.getElementById('progressSection').classList.remove('d-none');
+        document.getElementById('uploadForm').classList.add('d-none');
+        
+        analysisInProgress = true;
+        
+        // Simulate progress (in real implementation, this would be WebSocket updates)
+        simulateProgress();
+    });
+
+    function simulateProgress() {
+        let progress = 0;
+        let framesProcessed = 0;
+        let ballsDetected = 0;
+        
+        const interval = setInterval(() => {
+            progress += Math.random() * 10;
+            framesProcessed += Math.floor(Math.random() * 3) + 1;
+            ballsDetected += Math.floor(Math.random() * 5);
+            
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+            }
+            
+            // Update progress bar
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update stats
+            document.getElementById('framesProcessed').textContent = framesProcessed;
+            document.getElementById('ballsDetected').textContent = ballsDetected;
+            document.getElementById('processingSpeed').textContent = (framesProcessed / (progress / 10)).toFixed(1) + ' fps';
+            
+            const remainingTime = ((100 - progress) / 10) * 1000;
+            document.getElementById('estimatedTime').textContent = formatTime(remainingTime / 1000);
+            
+        }, 1000);
+    }
+
+    function cancelAnalysis() {
+        if (confirm('Are you sure you want to cancel the analysis?')) {
+            analysisInProgress = false;
+            document.getElementById('progressSection').classList.add('d-none');
+            document.getElementById('uploadForm').classList.remove('d-none');
+            
+            // Reset progress
+            document.getElementById('progressBar').style.width = '0%';
+        }
+    }
+
+    function useSampleVideo(type) {
+        // In a real implementation, this would load a sample video
+        alert(`Loading ${type} sample video... (This would use the existing sample_snooker.mp4 file)`);
+        
+        // Simulate file selection
+        const sampleFileName = type === 'break' ? 'sample_break_shot.mp4' : 'sample_training.mp4';
+        
+        document.getElementById('fileName').textContent = sampleFileName;
+        document.getElementById('fileSize').textContent = '15.2 MB';
+        document.getElementById('fileInfo').classList.remove('d-none');
+        document.getElementById('analyzeBtn').disabled = false;
+        
+        uploadArea.innerHTML = `
+            <div class="text-center">
+                <i class="fas fa-video display-1 text-info mb-3"></i>
+                <h4 class="text-info">Sample Video Loaded</h4>
+                <p class="text-muted">${sampleFileName}</p>
+            </div>
+        `;
+        
+        selectedFile = { name: sampleFileName, size: 15900000 }; // Simulate file object
+    }
+
+    // Check for demo mode
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('demo') === 'true') {
+        // Auto-load sample video for demo
+        setTimeout(() => {
+            useSampleVideo('break');
+        }, 1000);
+    }
+</script>
+{% endblock %}

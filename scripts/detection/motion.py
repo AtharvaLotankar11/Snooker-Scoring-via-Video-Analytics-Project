@@ -1,8 +1,11 @@
 import cv2
 import numpy as np
 import os
+import sys
 
-basedir = "C:/Users/Manoj/Downloads/Snooker/"
+# Add project root to path
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+from config import BASE_DIR, DATASET_DIR
 def detect_motion(frame, prev_frame):
     """
     Detect general motion between two frames using frame differencing.
@@ -34,13 +37,13 @@ def detect_cue_ball_motion(frame, prev_frame, bbox):
     diff = cv2.absdiff(gray1, gray2)
 
     # Ensure output directory exists
-    os.makedirs(basedir + "dataset", exist_ok=True)
-    cv2.imwrite(basedir + "dataset/diff_debug.jpg", diff)  # Save diff image for debugging
+    os.makedirs(DATASET_DIR, exist_ok=True)
+    cv2.imwrite(os.path.join(DATASET_DIR, "diff_debug.jpg"), diff)  # Save diff image for debugging
 
     _, thresh = cv2.threshold(diff, 1, 255, cv2.THRESH_BINARY)  # Lowered from 5 to 1
     motion_pixels = np.sum(thresh) / 255
     print(f"Cue ball motion pixels: {motion_pixels}")
-    cv2.imwrite(basedir + "dataset/thresh.jpg", thresh)
+    cv2.imwrite(os.path.join(DATASET_DIR, "thresh.jpg"), thresh)
     return motion_pixels > 5  # Lowered from 20
 
 
@@ -77,8 +80,8 @@ class ShotDetector:
 
 
 if __name__ == "__main__":
-    frame1 = cv2.imread(basedir + "dataset/frame_8.jpg")
-    frame2 = cv2.imread(basedir + "dataset/frame_9.jpg")
+    frame1 = cv2.imread(os.path.join(DATASET_DIR, "frame_8.jpg"))
+    frame2 = cv2.imread(os.path.join(DATASET_DIR, "frame_9.jpg"))
 
     if frame1 is None or frame2 is None:
         print("Error: Could not load frames")

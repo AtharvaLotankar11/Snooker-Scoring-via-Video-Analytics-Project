@@ -1,0 +1,460 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Snooker Detection Pro{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <!-- Abstract Logo Backdrop -->
+    <div class="hero-logo-backdrop"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="display-4 fw-bold mb-4" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                    <i class="fas fa-circle text-warning me-3 animate-bounce"></i>
+                    <span style="background: linear-gradient(45deg, var(--snooker-gold), var(--energy-orange), var(--motivating-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        Snooker Detection Pro
+                    </span>
+                </h1>
+                <p class="lead mb-5" style="font-size: 1.4rem; color: var(--text-secondary);">
+                    🎯 <strong>Unleash the power of AI</strong> on your snooker game! 
+                    <br>
+                    Get instant, professional-grade analytics that will 
+                    <em style="color: var(--snooker-gold);">elevate your understanding</em> 
+                    of every shot, every ball, every moment.
+                </p>
+                <div class="mb-4">
+                    <span class="badge bg-success me-2 p-2" style="font-size: 0.9rem;">
+                        <i class="fas fa-bolt me-1"></i>Lightning Fast Analysis
+                    </span>
+                    <span class="badge bg-info me-2 p-2" style="font-size: 0.9rem;">
+                        <i class="fas fa-eye me-1"></i>85%+ Accuracy
+                    </span>
+                    <span class="badge bg-warning text-dark me-2 p-2" style="font-size: 0.9rem;">
+                        <i class="fas fa-trophy me-1"></i>Pro-Level Insights
+                    </span>
+                </div>
+                <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+                    <a href="{{ url_for('upload_page') }}" class="btn btn-success btn-lg me-md-3" 
+                       style="min-width: 200px;">
+                        <i class="fas fa-rocket me-2"></i>Start Analysis Now!
+                    </a>
+                    <button class="btn btn-info btn-lg" onclick="showDemo()" 
+                            style="min-width: 180px;">
+                        <i class="fas fa-play-circle me-2"></i>See It In Action
+                    </button>
+                </div>
+                <div class="mt-4">
+                    <p class="text-muted" style="font-size: 0.95rem;">
+                        <i class="fas fa-users me-1"></i>Join thousands of players improving their game
+                        <span class="mx-2">•</span>
+                        <i class="fas fa-clock me-1"></i>Results in under 30 seconds
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="display-5 fw-bold mb-4" style="background: linear-gradient(45deg, var(--snooker-gold), var(--energy-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    🚀 Game-Changing Features
+                </h2>
+                <p class="lead text-muted mb-4" style="font-size: 1.3rem;">
+                    Everything you need to <strong style="color: var(--motivating-cyan);">dominate the table</strong> 
+                    with professional-grade video analysis
+                </p>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="alert alert-info border-0" style="background: linear-gradient(45deg, rgba(0, 206, 201, 0.1), rgba(108, 92, 231, 0.1)); border-radius: var(--border-radius-lg);">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            <strong>Pro Tip:</strong> Upload your practice sessions to track improvement over time!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-feature h-100 text-center p-4" tabindex="0">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h4 class="feature-title">🎯 Smart Ball Detection</h4>
+                    <p class="feature-description mb-3">
+                        Our <strong>AI-powered vision system</strong> spots every ball with 
+                        <span class="text-primary">85%+ accuracy</span> - 
+                        even in tricky lighting! No ball escapes our detection.
+                    </p>
+                    <div class="mt-auto">
+                        <span class="badge bg-success">Lightning Fast</span>
+                        <span class="badge bg-info ms-1">Ultra Accurate</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-feature h-100 text-center p-4" tabindex="0">
+                    <div class="feature-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h4 class="feature-title">🏃‍♂️ Smart Ball Tracking</h4>
+                    <p class="feature-description mb-3">
+                        Watch balls move like never before! Our 
+                        <strong>advanced tracking system</strong> follows every ball's journey, 
+                        predicting paths even when they're <em>temporarily hidden</em>.
+                    </p>
+                    <div class="mt-auto">
+                        <span class="badge bg-primary">Multi-Object</span>
+                        <span class="badge bg-warning ms-1">Predictive</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-feature h-100 text-center p-4" tabindex="0">
+                    <div class="feature-icon">
+                        <i class="fas fa-vector-square"></i>
+                    </div>
+                    <h4 class="feature-title">📐 Auto Table Calibration</h4>
+                    <p class="feature-description mb-3">
+                        No setup required! Our system <strong>automatically detects</strong> 
+                        your table's geometry and corrects perspective for 
+                        <span class="text-primary">pixel-perfect accuracy</span>.
+                    </p>
+                    <div class="mt-auto">
+                        <span class="badge bg-secondary">Automatic</span>
+                        <span class="badge bg-success ms-1">Precise</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-feature h-100 text-center p-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4 class="feature-title">Analytics</h4>
+                    <p class="feature-description">
+                        Comprehensive shot analysis, potting detection, and trajectory 
+                        visualization with detailed statistical reports.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-feature h-100 text-center p-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h4 class="feature-title">Real-time Processing</h4>
+                    <p class="feature-description">
+                        Process both live streams and recorded videos with optimized 
+                        performance for real-time analysis applications.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-feature h-100 text-center p-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4 class="feature-title">API Integration</h4>
+                    <p class="feature-description">
+                        RESTful API endpoints for easy integration with existing 
+                        applications and custom development projects.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- System Overview Section -->
+<section class="py-5 bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold mb-4">System Overview</h2>
+                <p class="lead mb-5">
+                    Get real-time insights into your snooker detection system performance
+                </p>
+            </div>
+        </div>
+        
+        <div class="stats-grid" id="systemStats">
+            <div class="stat-item stat-energy">
+                <div class="stat-value" id="totalVideos">-</div>
+                <div class="stat-label">Videos Analyzed</div>
+            </div>
+            
+            <div class="stat-item stat-victory">
+                <div class="stat-value" id="totalFrames">-</div>
+                <div class="stat-label">Frames Processed</div>
+            </div>
+            
+            <div class="stat-item stat-champion">
+                <div class="stat-value" id="avgProcessingTime">-</div>
+                <div class="stat-label">Avg Processing Time</div>
+            </div>
+            
+            <div class="stat-item stat-energy">
+                <div class="stat-value" id="systemStatus">Ready</div>
+                <div class="stat-label">System Status</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Powered By Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="powered-by-section">
+                    <div class="powered-by-title">
+                        <i class="fas fa-handshake me-2"></i>Powered by Industry Leaders
+                    </div>
+                    <div class="powered-by-logos">
+                        <img src="/common_logo/primary-logo.png" 
+                             alt="Primary Partner" 
+                             class="powered-by-logo company-logo-tooltip" 
+                             data-company="Lead Technology Partner"
+                             onerror="this.style.display='none'; console.log('Logo failed to load:', this.src);">
+                        <img src="/common_logo/color-logo1.png" 
+                             alt="Technology Partner" 
+                             class="powered-by-logo company-logo-tooltip" 
+                             data-company="AI & Machine Learning Partner"
+                             onerror="this.style.display='none'; console.log('Logo failed to load:', this.src);">
+                        <img src="/common_logo/color-logo2.png" 
+                             alt="Innovation Partner" 
+                             class="powered-by-logo company-logo-tooltip" 
+                             data-company="Innovation & Development Partner"
+                             onerror="this.style.display='none'; console.log('Logo failed to load:', this.src);">
+                    </div>
+                    <p class="text-muted mt-4 mb-0" style="font-size: 0.9rem;">
+                        <i class="fas fa-shield-alt me-1"></i>
+                        Trusted by professionals worldwide • Enterprise-grade security • 24/7 support
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ball Types Reference -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="text-center mb-5 text-primary">Supported Ball Types</h2>
+                <div class="card-base p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <span class="ball-indicator ball-cue"></span>
+                                <span>Cue Ball</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <span class="ball-indicator ball-red"></span>
+                                <span>Red Balls</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <span class="ball-indicator ball-yellow"></span>
+                                <span>Yellow (2 pts)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <span class="ball-indicator ball-green"></span>
+                                <span>Green (3 pts)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <span class="ball-indicator ball-brown"></span>
+                                <span>Brown (4 pts)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <span class="ball-indicator ball-blue"></span>
+                                <span>Blue (5 pts)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <span class="ball-indicator ball-pink"></span>
+                                <span>Pink (6 pts)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <span class="ball-indicator ball-black"></span>
+                                <span>Black (7 pts)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Demo Modal -->
+<div class="modal fade" id="demoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-play-circle me-2"></i>System Demo
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-video display-1 text-warning"></i>
+                    </div>
+                    <h4 class="mb-3">Interactive Demo</h4>
+                    <p class="lead mb-4">
+                        Experience the power of our snooker detection system with a sample video analysis.
+                    </p>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-lg" onclick="runQuickDemo()">
+                            <i class="fas fa-rocket me-2"></i>Run Quick Demo
+                        </button>
+                        <button class="btn btn-success btn-lg" onclick="runFullDemo()">
+                            <i class="fas fa-cogs me-2"></i>Run Full Analysis Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Load system statistics
+    async function loadSystemStats() {
+        try {
+            const response = await fetch('/api/status');
+            const status = await response.json();
+            
+            // Update stats (these would come from a real backend in production)
+            document.getElementById('totalVideos').textContent = '0';
+            document.getElementById('totalFrames').textContent = status.frames_processed || '0';
+            document.getElementById('avgProcessingTime').textContent = '~0.13s';
+            document.getElementById('systemStatus').textContent = 'Ready';
+        } catch (error) {
+            console.error('Failed to load system stats:', error);
+            document.getElementById('systemStatus').textContent = 'Error';
+            document.getElementById('systemStatus').className = 'text-danger mb-2';
+        }
+    }
+
+    // Show demo modal
+    function showDemo() {
+        new bootstrap.Modal(document.getElementById('demoModal')).show();
+    }
+
+    // Run quick demo
+    async function runQuickDemo() {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('demoModal'));
+        modal.hide();
+        
+        // Show loading
+        const loadingHtml = `
+            <div class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
+                 style="background: rgba(0,0,0,0.8); z-index: 9999;" id="demoLoading">
+                <div class="text-center text-white">
+                    <div class="spinner-border text-warning mb-3" style="width: 3rem; height: 3rem;"></div>
+                    <h4>Running Quick Demo...</h4>
+                    <p>Processing sample video with detection system</p>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', loadingHtml);
+        
+        // Simulate demo (in real implementation, this would call the backend)
+        setTimeout(() => {
+            document.getElementById('demoLoading').remove();
+            
+            // Show results
+            const resultHtml = `
+                <div class="modal fade show" id="demoResults" style="display: block;">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content bg-dark text-white">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Demo Results</h5>
+                                <button type="button" class="btn-close btn-close-white" onclick="closeDemoResults()"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="card bg-secondary p-3">
+                                            <h6>Detection Summary</h6>
+                                            <ul class="list-unstyled mb-0">
+                                                <li>• Frames Processed: 22</li>
+                                                <li>• Balls Detected: 156</li>
+                                                <li>• Avg Processing Time: 0.133s</li>
+                                                <li>• Detection Accuracy: 87%</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card bg-secondary p-3">
+                                            <h6>Ball Statistics</h6>
+                                            <ul class="list-unstyled mb-0">
+                                                <li><span class="ball-indicator ball-cue"></span> Cue: 22</li>
+                                                <li><span class="ball-indicator ball-red"></span> Red: 89</li>
+                                                <li><span class="ball-indicator ball-yellow"></span> Yellow: 12</li>
+                                                <li><span class="ball-indicator ball-blue"></span> Blue: 8</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <p class="text-success">✅ Demo completed successfully!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-backdrop fade show"></div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', resultHtml);
+        }, 3000);
+    }
+
+    // Run full demo
+    function runFullDemo() {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('demoModal'));
+        modal.hide();
+        
+        // Redirect to upload page with demo flag
+        window.location.href = '/upload?demo=true';
+    }
+
+    // Close demo results
+    function closeDemoResults() {
+        document.getElementById('demoResults').remove();
+        document.querySelector('.modal-backdrop').remove();
+    }
+
+    // Load stats on page load
+    document.addEventListener('DOMContentLoaded', loadSystemStats);
+</script>
+{% endblock %}

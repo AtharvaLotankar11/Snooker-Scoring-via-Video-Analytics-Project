@@ -1,11 +1,17 @@
 from ultralytics import YOLO
+import os
+import sys
+
+# Add project root to path
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+from config import YOLO_DATA_DIR
 
 # Load YOLOv8s model
 model = YOLO("yolov8s.pt")
 
 # Train with custom augmentation
 model.train(
-    data="C:/Users/Manoj/Downloads/Snooker/dataset/yolo_data/data.yaml",
+    data=os.path.join(YOLO_DATA_DIR, "data.yaml"),
     epochs=20,
     imgsz=640,
     batch=2,

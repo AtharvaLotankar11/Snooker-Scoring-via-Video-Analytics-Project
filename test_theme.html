@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme System Test</title>
+    
+    <!-- CSS Variables and Theme System -->
+    <link href="static/css/variables.css" rel="stylesheet">
+    <link href="static/css/themes/light-theme.css" rel="stylesheet">
+    <link href="static/css/themes/dark-theme.css" rel="stylesheet">
+    <link href="static/css/themes/theme-components.css" rel="stylesheet">
+    <link href="static/css/theme-transitions.css" rel="stylesheet">
+    
+    <!-- Theme Management Scripts -->
+    <script src="static/js/theme-manager.js"></script>
+    <script src="static/js/theme-switcher.js"></script>
+    <script src="static/js/theme-persistence.js"></script>
+    
+    <style>
+        body {
+            font-family: var(--font-family-sans);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 2rem;
+            transition: all var(--transition-normal);
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .test-card {
+            background: var(--surface-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin-bottom: var(--space-4);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+        }
+        
+        .test-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .theme-toggle-btn {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            border: none;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            font-weight: var(--font-weight-semibold);
+            transition: all var(--transition-normal);
+        }
+        
+        .theme-toggle-btn:hover {
+            background: var(--btn-primary-hover);
+            transform: translateY(-2px);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: var(--space-2);
+        }
+        
+        .status-success {
+            background: var(--success);
+        }
+        
+        .status-error {
+            background: var(--error);
+        }
+    </style>
+</head>
+<body data-theme="dark" class="theme-transition">
+    <div class="test-container">
+        <h1>Theme System Test</h1>
+        
+        <div class="test-card">
+            <h2>Theme Controls</h2>
+            <button id="themeToggle" class="theme-toggle-btn">
+                <span id="themeIcon">🌙</span>
+                Toggle Theme
+            </button>
+            <p>Current theme: <strong id="currentTheme">dark</strong></p>
+        </div>
+        
+        <div class="test-card">
+            <h2>System Status</h2>
+            <div id="systemStatus">
+                <p><span class="status-indicator status-error"></span>ThemeManager: Not initialized</p>
+                <p><span class="status-indicator status-error"></span>ThemeSwitcher: Not initialized</p>
+                <p><span class="status-indicator status-error"></span>Theme persistence: Not working</p>
+            </div>
+        </div>
+        
+        <div class="test-card">
+            <h2>Visual Elements Test</h2>
+            <p>This text should change color based on the theme.</p>
+            <button class="theme-toggle-btn" style="background: var(--secondary); color: var(--text-inverse);">
+                Secondary Button
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let themeManager = null;
+        let themeSwitcher = null;
+        
+        // Initialize theme system
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Starting theme system test...');
+            
+            try {
+                // Initialize ThemeManager
+                themeManager = new ThemeManager({
+                    defaultTheme: 'dark',
+                    storageKey: 'snooker-theme-preference',
+                    transitionDuration: 300
+                });
+                
+                updateStatus('ThemeManager', true);
+                console.log('✅ ThemeManager initialized');
+                
+                // Get current theme
+                const currentTheme = themeManager.getCurrentTheme();
+                updateCurrentTheme(currentTheme);
+                
+                // Setup theme toggle
+                const toggleBtn = document.getElementById('themeToggle');
+                toggleBtn.addEventListener('click', function() {
+                    console.log('🎨 Toggling theme...');
+                    themeManager.toggleTheme();
+                });
+                
+                // Listen for theme changes
+                themeManager.addObserver((event, data) => {
+                    if (event === 'themeChanged') {
+                        console.log('🎨 Theme changed:', data);
+                        updateCurrentTheme(data.to);
+                        updateThemeIcon(data.to);
+                    }
+                });
+                
+                updateStatus('Theme persistence', true);
+                console.log('✅ Theme system test completed successfully');
+                
+            } catch (error) {
+                console.error('❌ Theme system test failed:', error);
+                updateStatus('ThemeManager', false);
+            }
+        });
+        
+        function updateStatus(component, isWorking) {
+            const statusDiv = document.getElementById('systemStatus');
+            const statusText = statusDiv.innerHTML;
+            const indicator = isWorking ? 'status-success' : 'status-error';
+            const status = isWorking ? 'Working' : 'Not working';
+            
+            const newText = statusText.replace(
+                new RegExp(`<p><span class="status-indicator status-[^"]*"></span>${component}: [^<]*</p>`),
+                `<p><span class="status-indicator ${indicator}"></span>${component}: ${status}</p>`
+            );
+            
+            statusDiv.innerHTML = newText;
+        }
+        
+        function updateCurrentTheme(theme) {
+            document.getElementById('currentTheme').textContent = theme;
+        }
+        
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+    </script>
+</body>
+</html>

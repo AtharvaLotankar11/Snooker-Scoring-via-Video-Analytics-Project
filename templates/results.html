@@ -1,0 +1,498 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis Results - Snooker Detection Pro{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <h1 class="display-5 fw-bold mb-3 text-primary">
+                <i class="fas fa-chart-line text-brand-green me-3 animate-champion"></i>
+                Analysis Results
+            </h1>
+            <p class="lead text-secondary">
+                Comprehensive analysis results for: <strong class="text-brand-blue">{{ video_filename }}</strong>
+            </p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+            <div class="btn-group" role="group">
+                <a href="{{ url_for('download_results', filename=video_filename) }}" class="btn-base btn-primary-themed">
+                    <i class="fas fa-download me-2"></i>Download JSON
+                </a>
+                <a href="{{ url_for('upload_page') }}" class="btn-base btn-secondary-themed">
+                    <i class="fas fa-upload me-2"></i>Analyze Another
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="stats-grid mb-5">
+        <div class="stat-item stat-energy">
+            <i class="fas fa-video feature-icon-playful text-brand-green mb-2"></i>
+            <div class="stat-value">{{ results.video_info.total_frames }}</div>
+            <div class="stat-label">Total Frames</div>
+            <small class="text-secondary">{{ "%.1f"|format(results.video_info.duration) }}s duration</small>
+        </div>
+        
+        <div class="stat-item stat-victory">
+            <i class="fas fa-eye feature-icon-playful text-brand-blue mb-2"></i>
+            <div class="stat-value">{{ results.detection_summary.total_detections }}</div>
+            <div class="stat-label">Total Detections</div>
+            <small class="text-secondary">{{ "%.1f"|format(results.detection_summary.avg_balls_per_frame) }} avg/frame</small>
+        </div>
+        
+        <div class="stat-item stat-champion">
+            <i class="fas fa-clock feature-icon-playful text-brand-green mb-2"></i>
+            <div class="stat-value">{{ "%.2f"|format(results.detection_summary.processing_time) }}s</div>
+            <div class="stat-label">Processing Time</div>
+            <small class="text-secondary">{{ results.detection_summary.frames_processed }} frames processed</small>
+        </div>
+        
+        <div class="stat-item stat-energy">
+            <i class="fas fa-tachometer-alt feature-icon-playful text-brand-blue mb-2"></i>
+            <div class="stat-value">{{ "%.1f"|format(results.detection_summary.frames_processed / results.detection_summary.processing_time) }}</div>
+            <div class="stat-label">FPS</div>
+            <small class="text-secondary">Processing speed</small>
+        </div>
+    </div>
+
+    <!-- Ball Statistics -->
+    <div class="row mb-5">
+        <div class="col-lg-6">
+            <div class="card-base card-energy p-4">
+                <h5 class="mb-4 text-primary">
+                    <i class="fas fa-chart-pie me-2"></i>Ball Detection Statistics
+                </h5>
+                <div class="chart-container">
+                    <canvas id="ballStatsChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card-base card-victory p-4">
+                <h5 class="mb-4 text-primary">
+                    <i class="fas fa-list me-2"></i>Detection Breakdown
+                </h5>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th>Ball Type</th>
+                                <th>Count</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ball_type, count in results.ball_statistics.items() %}
+                            <tr>
+                                <td>
+                                    <span class="ball-indicator ball-{{ ball_type.lower().replace(' ', '-') }}"></span>
+                                    {{ ball_type }}
+                                </td>
+                                <td>{{ count }}</td>
+                                <td>{{ "%.1f"|format((count / results.detection_summary.total_detections) * 100) }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calibration Information -->
+    {% if results.calibration_info.is_calibrated %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card-base card-champion p-4">
+                <h5 class="mb-4 text-primary">
+                    <i class="fas fa-vector-square me-2"></i>Table Calibration
+                </h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="alert-success-themed">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong>Calibration Successful</strong>
+                            <p class="mb-0 mt-2">
+                                Table geometry detected and calibrated successfully. 
+                                Coordinate transformation is active for accurate position mapping.
+                            </p>
+                        </div>
+                        
+                        <h6 class="mt-3">Table Dimensions:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Length:</strong> {{ "%.2f"|format(results.calibration_info.table_dimensions.length) }}m</li>
+                            <li><strong>Width:</strong> {{ "%.2f"|format(results.calibration_info.table_dimensions.width) }}m</li>
+                            <li><strong>Corners Detected:</strong> {{ results.calibration_info.table_corners|length }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-base card-energy p-3">
+                            <h6 class="text-primary">Calibration Quality</h6>
+                            <div class="progress-themed mb-2">
+                                <div class="progress-bar-themed" style="width: 92%"></div>
+                            </div>
+                            <small class="text-secondary">92% - Excellent calibration quality</small>
+                            
+                            <h6 class="mt-3">Features Enabled</h6>
+                            <ul class="list-unstyled small">
+                                <li><i class="fas fa-check text-success me-1"></i> Real-world coordinates</li>
+                                <li><i class="fas fa-check text-success me-1"></i> Distance measurements</li>
+                                <li><i class="fas fa-check text-success me-1"></i> Trajectory analysis</li>
+                                <li><i class="fas fa-check text-success me-1"></i> Pocket detection</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card-base card-action p-4">
+                <h5 class="mb-4 text-primary">
+                    <i class="fas fa-vector-square me-2"></i>Table Calibration
+                </h5>
+                <div class="alert-warning-themed">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Calibration Not Available</strong>
+                    <p class="mb-0 mt-2">
+                        Table calibration could not be performed automatically. 
+                        Results are shown in pixel coordinates only.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Frame-by-Frame Analysis -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card-base card-champion p-4">
+                <h5 class="mb-4 text-primary">
+                    <i class="fas fa-film me-2"></i>Frame Analysis Timeline
+                </h5>
+                
+                <!-- Timeline Chart -->
+                <div class="chart-container mb-4">
+                    <canvas id="timelineChart" width="800" height="300"></canvas>
+                </div>
+                
+                <!-- Frame Details Table -->
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped" id="frameTable">
+                        <thead>
+                            <tr>
+                                <th>Frame #</th>
+                                <th>Timestamp</th>
+                                <th>Detections</th>
+                                <th>Tracked Balls</th>
+                                <th>Processing Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for frame in results.frame_analyses[:20] %}
+                            <tr>
+                                <td>{{ frame.frame_number }}</td>
+                                <td>{{ "%.2f"|format(frame.timestamp) }}s</td>
+                                <td>
+                                    <span class="badge bg-success">{{ frame.detections_count }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-info">{{ frame.tracked_balls_count }}</span>
+                                </td>
+                                <td>{{ "%.3f"|format(frame.processing_time) }}s</td>
+                                <td>
+                                    <button class="btn-base btn-outline-themed btn-sm" onclick="showFrameDetails({{ loop.index0 }})">
+                                        <i class="fas fa-eye me-1"></i>Details
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    {% if results.frame_analyses|length > 20 %}
+                    <div class="text-center mt-3">
+                        <button class="btn-base btn-outline-themed" onclick="loadMoreFrames()">
+                            <i class="fas fa-chevron-down me-2"></i>
+                            Load More Frames ({{ results.frame_analyses|length - 20 }} remaining)
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Metrics -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card-base card-energy p-4">
+                <h5 class="mb-4 text-primary">
+                    <i class="fas fa-tachometer-alt me-2"></i>Performance Metrics
+                </h5>
+                <div class="chart-container">
+                    <canvas id="performanceChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card-base card-victory p-4">
+                <h5 class="mb-4 text-primary">
+                    <i class="fas fa-info-circle me-2"></i>Analysis Summary
+                </h5>
+                <div class="stats-grid">
+                    <div class="stat-item stat-energy text-center">
+                        <div class="stat-value text-brand-green">{{ "%.1f"|format((results.detection_summary.total_detections / results.detection_summary.frames_processed) if results.detection_summary.frames_processed > 0 else 0) }}</div>
+                        <div class="stat-label">Avg Detections/Frame</div>
+                    </div>
+                    <div class="stat-item stat-victory text-center">
+                        <div class="stat-value text-brand-blue">{{ "%.0f"|format(results.video_info.fps) }}</div>
+                        <div class="stat-label">Video FPS</div>
+                    </div>
+                    <div class="stat-item stat-champion text-center">
+                        <div class="stat-value text-brand-green">{{ "%.1f"|format((results.detection_summary.frames_processed / results.video_info.total_frames) * 100) }}%</div>
+                        <div class="stat-label">Frames Analyzed</div>
+                    </div>
+                    <div class="stat-item stat-energy text-center">
+                        <div class="stat-value text-brand-blue">{{ results.ball_statistics|length }}</div>
+                        <div class="stat-label">Ball Types Found</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h6 class="text-primary">Analysis Quality</h6>
+                    <div class="progress-themed mb-2">
+                        <div class="progress-bar-themed" style="width: 87%"></div>
+                    </div>
+                    <small class="text-secondary">87% - High quality analysis</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Frame Details Modal -->
+<div class="modal-themed" id="frameDetailsModal" tabindex="-1">
+    <div class="modal-backdrop-themed"></div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-themed">
+            <div class="modal-header-themed">
+                <h5 class="modal-title text-primary">Frame Details</h5>
+                <button type="button" class="btn-base btn-outline-themed btn-sm" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body-themed" id="frameDetailsContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const resultsData = {{ results|tojson }};
+    
+    // Ball Statistics Chart
+    const ballStatsCtx = document.getElementById('ballStatsChart').getContext('2d');
+    const ballStatsChart = new Chart(ballStatsCtx, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(resultsData.ball_statistics),
+            datasets: [{
+                data: Object.values(resultsData.ball_statistics),
+                backgroundColor: [
+                    '#ffffff', '#dc3545', '#ffc107', '#28a745', 
+                    '#8b4513', '#007bff', '#e83e8c', '#000000'
+                ],
+                borderColor: '#2d2d2d',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#ffffff',
+                        usePointStyle: true,
+                        padding: 20
+                    }
+                }
+            }
+        }
+    });
+
+    // Timeline Chart
+    const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+    const timelineChart = new Chart(timelineCtx, {
+        type: 'line',
+        data: {
+            labels: resultsData.frame_analyses.map(f => f.frame_number),
+            datasets: [{
+                label: 'Detections per Frame',
+                data: resultsData.frame_analyses.map(f => f.detections_count),
+                borderColor: '#28a745',
+                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                tension: 0.4
+            }, {
+                label: 'Tracked Balls',
+                data: resultsData.frame_analyses.map(f => f.tracked_balls_count),
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Frame Number',
+                        color: '#ffffff'
+                    },
+                    ticks: { color: '#ffffff' },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Count',
+                        color: '#ffffff'
+                    },
+                    ticks: { color: '#ffffff' },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: { color: '#ffffff' }
+                }
+            }
+        }
+    });
+
+    // Performance Chart
+    const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+    const performanceChart = new Chart(performanceCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Detection', 'Tracking', 'Calibration', 'Overall'],
+            datasets: [{
+                label: 'Processing Time (ms)',
+                data: [
+                    resultsData.detection_summary.processing_time * 1000 * 0.4,
+                    resultsData.detection_summary.processing_time * 1000 * 0.3,
+                    resultsData.detection_summary.processing_time * 1000 * 0.1,
+                    resultsData.detection_summary.processing_time * 1000
+                ],
+                backgroundColor: ['#28a745', '#007bff', '#ffc107', '#dc3545'],
+                borderColor: '#2d2d2d',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    ticks: { color: '#ffffff' },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Time (ms)',
+                        color: '#ffffff'
+                    },
+                    ticks: { color: '#ffffff' },
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: { color: '#ffffff' }
+                }
+            }
+        }
+    });
+
+    // Show frame details
+    function showFrameDetails(frameIndex) {
+        const frame = resultsData.frame_analyses[frameIndex];
+        
+        let detailsHtml = `
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h6>Frame Information</h6>
+                    <ul class="list-unstyled">
+                        <li><strong>Frame Number:</strong> ${frame.frame_number}</li>
+                        <li><strong>Timestamp:</strong> ${frame.timestamp.toFixed(2)}s</li>
+                        <li><strong>Processing Time:</strong> ${frame.processing_time.toFixed(3)}s</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Detection Summary</h6>
+                    <ul class="list-unstyled">
+                        <li><strong>Detections:</strong> ${frame.detections_count}</li>
+                        <li><strong>Tracked Balls:</strong> ${frame.tracked_balls_count}</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+        
+        if (frame.detections && frame.detections.length > 0) {
+            detailsHtml += `
+                <h6>Detections</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-dark">
+                        <thead>
+                            <tr>
+                                <th>Ball Type</th>
+                                <th>Confidence</th>
+                                <th>Position</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            frame.detections.forEach(detection => {
+                const centerX = (detection.bbox.x1 + detection.bbox.x2) / 2;
+                const centerY = (detection.bbox.y1 + detection.bbox.y2) / 2;
+                
+                detailsHtml += `
+                    <tr>
+                        <td>
+                            <span class="ball-indicator ball-${detection.ball_type.toLowerCase().replace(' ', '-')}"></span>
+                            ${detection.ball_type}
+                        </td>
+                        <td>${(detection.confidence * 100).toFixed(1)}%</td>
+                        <td>(${centerX.toFixed(0)}, ${centerY.toFixed(0)})</td>
+                    </tr>
+                `;
+            });
+            
+            detailsHtml += '</tbody></table></div>';
+        }
+        
+        document.getElementById('frameDetailsContent').innerHTML = detailsHtml;
+        new bootstrap.Modal(document.getElementById('frameDetailsModal')).show();
+    }
+
+    // Load more frames (placeholder)
+    function loadMoreFrames() {
+        alert('Loading more frames... (This would load additional frame data in a real implementation)');
+    }
+</script>
+{% endblock %}

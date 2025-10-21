@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+# Keep sample video but ignore other videos
+dataset/*.mp4
+!dataset/sample_snooker.mp4
+
+# Ignore generated outputs
+dataset/test_yolo_*.jpg
+dataset/diff*.jpg
+dataset/thresh*.jpg
+dataset/*.png
+dataset/*.txt
+!dataset/notes.txt
+
+# YOLO training outputs
+scripts/detection/runs/
+scripts/detection/yolov8*.pt
+
+# Downloaded datasets
+datasets/
+
+# Temporary files
+*.tmp
+*.temp

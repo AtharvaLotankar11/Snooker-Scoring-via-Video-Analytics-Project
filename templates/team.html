@@ -1,0 +1,574 @@
+{% extends "base.html" %}
+
+{% block title %}Meet Our Team - Snooker Detection Pro{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-users text-warning me-3 animate-bounce"></i>
+                    <span style="background: linear-gradient(45deg, var(--snooker-gold), var(--energy-orange), var(--motivating-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        Meet Our Team
+                    </span>
+                </h1>
+                <p class="lead mb-5" style="font-size: 1.4rem; color: var(--text-secondary);">
+                    🚀 <strong>The brilliant minds</strong> behind Snooker Detection Pro! 
+                    <br>
+                    Our diverse team of <em style="color: var(--snooker-gold);">passionate innovators</em> 
+                    brings together expertise in AI, computer vision, and software engineering.
+                </p>
+                <div class="mb-4">
+                    <span class="badge bg-success me-2 p-2" style="font-size: 0.9rem;">
+                        <i class="fas fa-brain me-1"></i>AI Specialists
+                    </span>
+                    <span class="badge bg-info me-2 p-2" style="font-size: 0.9rem;">
+                        <i class="fas fa-code me-1"></i>Full-Stack Developers
+                    </span>
+                    <span class="badge bg-warning text-dark me-2 p-2" style="font-size: 0.9rem;">
+                        <i class="fas fa-eye me-1"></i>Computer Vision Experts
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Members Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="display-5 fw-bold mb-4" style="background: linear-gradient(45deg, var(--snooker-gold), var(--energy-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    🌟 Our Core Team
+                </h2>
+                <p class="lead text-muted mb-4" style="font-size: 1.3rem;">
+                    Four exceptional individuals who transformed a vision into reality through 
+                    <strong style="color: var(--motivating-cyan);">innovation, dedication, and teamwork</strong>
+                </p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Atharva Lotankar -->
+            <div class="col-lg-6 col-md-6">
+                <div class="card card-feature h-100 text-center p-4 team-card" tabindex="0" onclick="openLinkedIn('atharva')" style="cursor: pointer;">
+                    <div class="team-member-avatar mb-4">
+                        <div class="avatar-circle" style="background: linear-gradient(135deg, #0B405B, #094455); padding: 4px;">
+                            <img src="{{ url_for('serve_team_member_image', filename='atharva.png') }}" 
+                                 alt="Atharva Lotankar" 
+                                 style="width: 92px; height: 92px; border-radius: 50%; object-fit: cover; border: 2px solid #94D82A;"
+                                 onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-brain\' style=\'font-size: 2.5rem; color: #94D82A;\'></i>'">
+                        </div>
+                    </div>
+                    <h4 class="team-member-name mb-2">Atharva Lotankar</h4>
+                    <div class="team-member-role mb-3">
+                        <span class="badge bg-primary px-3 py-2">AI/ML Lead & Computer Vision Architect</span>
+                    </div>
+                    <p class="team-member-description mb-4">
+                        Mastermind behind advanced ball detection algorithms and neural network architectures. Expert in deep learning, computer vision, and real-time object tracking systems for sports analytics.
+                    </p>
+                    <div class="team-member-skills mb-4">
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">OpenCV</span>
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">YOLO</span>
+                    </div>
+                    <div class="team-member-stats">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="stat-number">85%+</div>
+                                <div class="stat-label">Detection Accuracy</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-number">3+</div>
+                                <div class="stat-label">AI Models</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-number">15ms</div>
+                                <div class="stat-label">Avg Processing</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="linkedin-indicator">
+                        <i class="fab fa-linkedin me-2"></i>Connect on LinkedIn
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Manaswi Kabadi -->
+            <div class="col-lg-6 col-md-6">
+                <div class="card card-feature h-100 text-center p-4 team-card" tabindex="0" onclick="openLinkedIn('manaswi')" style="cursor: pointer;">
+                    <div class="team-member-avatar mb-4">
+                        <div class="avatar-circle" style="background: linear-gradient(135deg, #059669, #047857); padding: 4px;">
+                            <img src="{{ url_for('serve_team_member_image', filename='manaswi.png') }}" 
+                                 alt="Manaswi Kabadi" 
+                                 style="width: 92px; height: 92px; border-radius: 50%; object-fit: cover; border: 2px solid #ffffff;"
+                                 onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-code\' style=\'font-size: 2.5rem; color: #ffffff;\'></i>'">
+                        </div>
+                    </div>
+                    <h4 class="team-member-name mb-2">Manaswi Kabadi</h4>
+                    <div class="team-member-role mb-3">
+                        <span class="badge bg-success px-3 py-2">Full-Stack Developer & System Architect</span>
+                    </div>
+                    <p class="team-member-description mb-4">
+                        Architect of robust web platform and backend infrastructure. Expert in creating scalable, user-friendly interfaces and optimizing system performance for real-time video processing.
+                    </p>
+                    <div class="team-member-skills mb-4">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Flask</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Bootstrap</span>
+                    </div>
+                    <div class="team-member-stats">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="stat-number">500MB</div>
+                                <div class="stat-label">Max File Size</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-number">30s</div>
+                                <div class="stat-label">Avg Analysis</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-number">99%</div>
+                                <div class="stat-label">Uptime</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="linkedin-indicator">
+                        <i class="fab fa-linkedin me-2"></i>Connect on LinkedIn
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Saniya Kadam -->
+            <div class="col-lg-6 col-md-6">
+                <div class="card card-feature h-100 text-center p-4 team-card" tabindex="0" onclick="openLinkedIn('saniya')" style="cursor: pointer;">
+                    <div class="team-member-avatar mb-4">
+                        <div class="avatar-circle" style="background: linear-gradient(135deg, #dc2626, #b91c1c); padding: 4px;">
+                            <img src="{{ url_for('serve_team_member_image', filename='saniya.png') }}" 
+                                 alt="Saniya Kadam" 
+                                 style="width: 92px; height: 92px; border-radius: 50%; object-fit: cover; border: 2px solid #ffffff;"
+                                 onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-chart-line\' style=\'font-size: 2.5rem; color: #ffffff;\'></i>'">
+                        </div>
+                    </div>
+                    <h4 class="team-member-name mb-2">Saniya Kadam</h4>
+                    <div class="team-member-role mb-3">
+                        <span class="badge bg-danger px-3 py-2">Data Analytics & Visualization Expert</span>
+                    </div>
+                    <p class="team-member-description mb-4">
+                        Data wizard who transforms raw detection results into meaningful insights. Specializes in statistical analysis, performance metrics, and creating intuitive data visualizations.
+                    </p>
+                    <div class="team-member-skills mb-4">
+                        <span class="skill-tag">Chart.js</span>
+                        <span class="skill-tag">NumPy</span>
+                        <span class="skill-tag">Pandas</span>
+                        <span class="skill-tag">Statistics</span>
+                    </div>
+                    <div class="team-member-stats">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="stat-number">8</div>
+                                <div class="stat-label">Ball Types</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-number">100+</div>
+                                <div class="stat-label">Metrics</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-number">Real-time</div>
+                                <div class="stat-label">Analytics</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="linkedin-indicator">
+                        <i class="fab fa-linkedin me-2"></i>Connect on LinkedIn
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Aaryan Shetye -->
+            <div class="col-lg-6 col-md-6">
+                <div class="card card-feature h-100 text-center p-4 team-card" tabindex="0" onclick="openLinkedIn('aaryan')" style="cursor: pointer;">
+                    <div class="team-member-avatar mb-4">
+                        <div class="avatar-circle" style="background: linear-gradient(135deg, #7c3aed, #6d28d9); padding: 4px;">
+                            <img src="{{ url_for('serve_team_member_image', filename='aaryan.png') }}" 
+                                 alt="Aaryan Shetye" 
+                                 style="width: 92px; height: 92px; border-radius: 50%; object-fit: cover; border: 2px solid #ffffff;"
+                                 onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-vector-square\' style=\'font-size: 2.5rem; color: #ffffff;\'></i>'">
+                        </div>
+                    </div>
+                    <h4 class="team-member-name mb-2">Aaryan Shetye</h4>
+                    <div class="team-member-role mb-3">
+                        <span class="badge bg-warning text-dark px-3 py-2">Calibration & Tracking Specialist</span>
+                    </div>
+                    <p class="team-member-description mb-4">
+                        Precision engineer who ensures pixel-perfect accuracy through advanced table calibration and ball tracking algorithms. Expert in geometric transformations and trajectory analysis.
+                    </p>
+                    <div class="team-member-skills mb-4">
+                        <span class="skill-tag">Geometry</span>
+                        <span class="skill-tag">Tracking</span>
+                        <span class="skill-tag">Calibration</span>
+                        <span class="skill-tag">Algorithms</span>
+                    </div>
+                    <div class="team-member-stats">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="stat-number">Auto</div>
+                                <div class="stat-label">Calibration</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-number">Multi</div>
+                                <div class="stat-label">Object Track</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-number">3.57m</div>
+                                <div class="stat-label">Table Length</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="linkedin-indicator">
+                        <i class="fab fa-linkedin me-2"></i>Connect on LinkedIn
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Stats Section -->
+<section class="py-5 bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold mb-4">Team Achievements</h2>
+                <p class="lead mb-5">
+                    Collective impact and milestones achieved by our incredible team
+                </p>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-item stat-energy">
+                <div class="stat-value">4</div>
+                <div class="stat-label">Team Members</div>
+            </div>
+            
+            <div class="stat-item stat-victory">
+                <div class="stat-value">1000+</div>
+                <div class="stat-label">Hours Invested</div>
+            </div>
+            
+            <div class="stat-item stat-champion">
+                <div class="stat-value">85%+</div>
+                <div class="stat-label">Detection Accuracy</div>
+            </div>
+            
+            <div class="stat-item stat-energy">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Passion Driven</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="mb-4">Want to Connect?</h2>
+                <p class="lead mb-4">
+                    We're always excited to discuss our project, share insights, or explore collaboration opportunities!
+                </p>
+                <div class="d-grid gap-3 d-md-flex justify-content-md-center">
+                    <a href="{{ url_for('upload_page') }}" class="btn btn-success btn-lg me-md-3">
+                        <i class="fas fa-rocket me-2"></i>Try Our System
+                    </a>
+                    <button class="btn btn-info btn-lg" onclick="connectWithTeam()">
+                        <i class="fas fa-handshake me-2"></i>Connect With Us
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Custom Styles for Team Page -->
+<style>
+    .team-card {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .team-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .team-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+    
+    [data-theme="light"] .team-card:hover {
+        box-shadow: 0 15px 35px rgba(11, 64, 91, 0.15);
+    }
+    
+    .team-card:hover::before {
+        opacity: 1;
+    }
+    
+    .team-member-avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .team-card:hover .avatar-circle {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    }
+    
+    .team-member-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+    
+    .team-member-role .badge {
+        font-size: 0.85rem;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+    }
+    
+    .team-member-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        font-size: 1rem;
+    }
+    
+    .team-member-skills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .skill-tag {
+        background: var(--surface-secondary);
+        color: var(--text-primary);
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: 1px solid var(--border-primary);
+    }
+    
+    [data-theme="light"] .skill-tag {
+        background: rgba(11, 64, 91, 0.1);
+        color: #0B405B;
+        border-color: rgba(11, 64, 91, 0.2);
+    }
+    
+    .team-member-stats {
+        background: var(--surface-secondary);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    [data-theme="light"] .team-member-stats {
+        background: rgba(248, 250, 252, 0.8);
+        border: 1px solid rgba(11, 64, 91, 0.1);
+    }
+    
+    .stat-number {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-accent);
+        margin-bottom: 0.25rem;
+    }
+    
+    [data-theme="light"] .stat-number {
+        color: #0B405B;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+    
+    .linkedin-indicator {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
+    
+    .team-card:hover .linkedin-indicator {
+        opacity: 1;
+        color: #0077b5;
+        transform: translateY(-2px);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+        }
+        
+        .avatar-circle i {
+            font-size: 2rem !important;
+        }
+        
+        .team-member-name {
+            font-size: 1.3rem;
+        }
+        
+        .team-member-description {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // LinkedIn profile URLs
+    const linkedInProfiles = {
+        'atharva': 'https://in.linkedin.com/in/atharva-lotankar-51824537b',
+        'manaswi': 'https://in.linkedin.com/in/manaswi-kabadi',
+        'saniya': 'https://in.linkedin.com/in/saniya-kadam-b55276287',
+        'aaryan': 'https://www.linkedin.com/in/aaryan-shetye-49743a349/' // Add Aaryan's LinkedIn when available
+    };
+    
+    function openLinkedIn(member) {
+        const url = linkedInProfiles[member];
+        if (url) {
+            window.open(url, '_blank', 'noopener,noreferrer');
+        } else {
+            // Fallback to LinkedIn search if specific profile not available
+            window.open(`https://www.linkedin.com/search/results/people/?keywords=${member}`, '_blank', 'noopener,noreferrer');
+        }
+        
+        // Add visual feedback
+        const card = event.currentTarget;
+        card.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+            card.style.transform = '';
+        }, 150);
+    }
+    
+    function connectWithTeam() {
+        const modal = document.createElement('div');
+        modal.className = 'modal fade show';
+        modal.style.display = 'block';
+        modal.innerHTML = `
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-handshake me-2"></i>Connect With Our Team
+                        </h5>
+                        <button type="button" class="btn-close" onclick="this.closest('.modal').remove()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center mb-4">
+                            <h4>We'd Love to Hear From You!</h4>
+                            <p class="text-muted">Choose how you'd like to connect with our team:</p>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card p-3 text-center h-100">
+                                    <i class="fab fa-linkedin fa-2x text-primary mb-2"></i>
+                                    <h6>LinkedIn</h6>
+                                    <p class="small text-muted">Connect professionally</p>
+                                    <button class="btn btn-primary btn-sm" onclick="openAllLinkedIn()">
+                                        View All Profiles
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card p-3 text-center h-100">
+                                    <i class="fas fa-envelope fa-2x text-success mb-2"></i>
+                                    <h6>Email</h6>
+                                    <p class="small text-muted">Send us a message</p>
+                                    <button class="btn btn-success btn-sm" onclick="sendEmail()">
+                                        Send Email
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <p class="text-muted small">
+                                <i class="fas fa-heart text-danger me-1"></i>
+                                We're passionate about our work and love discussing technology!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop fade show"></div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+    
+    function openAllLinkedIn() {
+        Object.values(linkedInProfiles).forEach((url, index) => {
+            setTimeout(() => {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }, index * 500); // Stagger the opening to avoid popup blocking
+        });
+    }
+    
+    function sendEmail() {
+        const subject = encodeURIComponent('Inquiry about Snooker Detection Pro');
+        const body = encodeURIComponent('Hi Team,\n\nI\'m interested in learning more about your Snooker Detection Pro project.\n\nBest regards,');
+        window.location.href = `mailto:team@snookerdetectionpro.com?subject=${subject}&body=${body}`;
+    }
+    
+    // Add entrance animations
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.team-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 200);
+        });
+    });
+</script>
+{% endblock %}

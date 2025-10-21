@@ -1,0 +1,216 @@
+/**
+ * Upload Page Theme Fixes - Snooker Detection Pro
+ * Specific fixes for color contrast issues in the upload page
+ * Ensures proper visibility in both light and dark modes
+ */
+
+/* ===== USE THIS VIDEO BUTTON FIXES ===== */
+/* Ensure "Use This Video" buttons have proper contrast */
+.btn-primary-themed,
+.btn-base.btn-primary-themed,
+button[onclick*="useSampleVideo"] {
+    background: #0B405B !important;
+    color: #ffffff !important;
+    border-color: #0B405B !important;
+    font-weight: 600 !important;
+}
+
+.btn-primary-themed:hover,
+.btn-base.btn-primary-themed:hover,
+button[onclick*="useSampleVideo"]:hover {
+    background: #093649 !important;
+    color: #ffffff !important;
+    border-color: #093649 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(11, 64, 91, 0.3);
+}
+
+/* Dark mode adjustments for primary buttons */
+[data-theme="dark"] .btn-primary-themed,
+[data-theme="dark"] .btn-base.btn-primary-themed,
+[data-theme="dark"] button[onclick*="useSampleVideo"] {
+    background: #4096be !important;
+    color: #ffffff !important;
+    border-color: #4096be !important;
+}
+
+[data-theme="dark"] .btn-primary-themed:hover,
+[data-theme="dark"] .btn-base.btn-primary-themed:hover,
+[data-theme="dark"] button[onclick*="useSampleVideo"]:hover {
+    background: #66abcb !important;
+    color: #ffffff !important;
+    border-color: #66abcb !important;
+}
+
+/* ===== CUSTOMIZE YOUR ANALYSIS SECTION FIXES ===== */
+/* Fix dark text on dark background issue */
+.card-champion,
+.card-base.card-champion {
+    background: var(--surface-primary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-primary) !important;
+}
+
+/* Light mode fixes for analysis section */
+[data-theme="light"] .card-champion,
+[data-theme="light"] .card-base.card-champion {
+    background: #ffffff !important;
+    color: #1a202c !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .card-champion h5,
+[data-theme="light"] .card-base.card-champion h5,
+[data-theme="light"] .text-brand-blue {
+    color: #0B405B !important;
+}
+
+[data-theme="light"] .card-champion label,
+[data-theme="light"] .card-champion .form-label-themed {
+    color: #374151 !important;
+    font-weight: 500;
+}
+
+[data-theme="light"] .card-champion p,
+[data-theme="light"] .card-champion span,
+[data-theme="light"] .card-champion div {
+    color: #4a5568 !important;
+}
+
+/* Dark mode fixes for analysis section */
+[data-theme="dark"] .card-champion,
+[data-theme="dark"] .card-base.card-champion {
+    background: #2d3748 !important;
+    color: #ffffff !important;
+    border: 1px solid #4a5568 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .card-champion h5,
+[data-theme="dark"] .card-base.card-champion h5,
+[data-theme="dark"] .text-brand-blue {
+    color: #94D82A !important;
+}
+
+[data-theme="dark"] .card-champion label,
+[data-theme="dark"] .card-champion .form-label-themed {
+    color: #e2e8f0 !important;
+    font-weight: 500;
+}
+
+[data-theme="dark"] .card-champion p,
+[data-theme="dark"] .card-champion span,
+[data-theme="dark"] .card-champion div {
+    color: #cbd5e1 !important;
+}
+
+/* ===== FORM CONTROLS FIXES ===== */
+/* Light mode form controls */
+[data-theme="light"] .form-control-themed,
+[data-theme="light"] .form-control,
+[data-theme="light"] select {
+    background: #ffffff !important;
+    color: #1a202c !important;
+    border: 1px solid #d1d5db !important;
+}
+
+[data-theme="light"] .form-control-themed:focus,
+[data-theme="light"] .form-control:focus,
+[data-theme="light"] select:focus {
+    border-color: #94D82A !important;
+    box-shadow: 0 0 0 3px rgba(148, 216, 42, 0.1) !important;
+    outline: none;
+}
+
+/* Dark mode form controls */
+[data-theme="dark"] .form-control-themed,
+[data-theme="dark"] .form-control,
+[data-theme="dark"] select {
+    background: #374151 !important;
+    color: #ffffff !important;
+    border: 1px solid #4a5568 !important;
+}
+
+[data-theme="dark"] .form-control-themed:focus,
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] select:focus {
+    border-color: #94D82A !important;
+    box-shadow: 0 0 0 3px rgba(148, 216, 42, 0.2) !important;
+    outline: none;
+}
+
+/* ===== ALERT FIXES ===== */
+/* Light mode alert */
+[data-theme="light"] .alert-info-themed {
+    background: rgba(11, 64, 91, 0.1) !important;
+    color: #0B405B !important;
+    border-color: rgba(11, 64, 91, 0.2) !important;
+}
+
+/* Dark mode alert */
+[data-theme="dark"] .alert-info-themed {
+    background: rgba(148, 216, 42, 0.1) !important;
+    color: #94D82A !important;
+    border-color: rgba(148, 216, 42, 0.2) !important;
+}
+
+/* ===== SECONDARY BUTTON FIXES ===== */
+.btn-secondary-themed,
+.btn-base.btn-secondary-themed {
+    background: #94D82A !important;
+    color: #1a202c !important;
+    border-color: #94D82A !important;
+}
+
+.btn-secondary-themed:hover,
+.btn-base.btn-secondary-themed:hover {
+    background: #7bc220 !important;
+    color: #ffffff !important;
+    border-color: #7bc220 !important;
+    transform: translateY(-2px);
+}
+
+/* Dark mode secondary buttons */
+[data-theme="dark"] .btn-secondary-themed,
+[data-theme="dark"] .btn-base.btn-secondary-themed {
+    background: #94D82A !important;
+    color: #1a202c !important;
+    border-color: #94D82A !important;
+}
+
+[data-theme="dark"] .btn-secondary-themed:hover,
+[data-theme="dark"] .btn-base.btn-secondary-themed:hover {
+    background: #a0e140 !important;
+    color: #1a202c !important;
+    border-color: #a0e140 !important;
+}
+
+/* ===== CHECKBOX AND LABEL FIXES ===== */
+[data-theme="light"] .form-label-inline,
+[data-theme="light"] .form-checkbox {
+    color: #1a202c !important;
+}
+
+[data-theme="dark"] .form-label-inline,
+[data-theme="dark"] .form-checkbox {
+    color: #ffffff !important;
+}
+
+/* ===== TEXT COLOR OVERRIDES ===== */
+[data-theme="light"] .text-muted {
+    color: #6b7280 !important;
+}
+
+[data-theme="dark"] .text-muted {
+    color: #9ca3af !important;
+}
+
+/* Force proper inheritance for nested elements */
+[data-theme="light"] .card-champion * {
+    color: inherit;
+}
+
+[data-theme="dark"] .card-champion * {
+    color: inherit;
+}

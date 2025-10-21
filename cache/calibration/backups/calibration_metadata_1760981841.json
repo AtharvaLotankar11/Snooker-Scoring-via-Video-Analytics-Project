@@ -1,0 +1,13 @@
+{
+  "timestamp": 1760981783.4379199,
+  "video_source": "C:\\Users\\Manoj\\Downloads\\Snooker\\dataset\\sample_snooker.mp4",
+  "frame_number": 1228,
+  "table_dimensions": [
+    3.569,
+    1.778
+  ],
+  "corners_count": 4,
+  "pockets_count": 6,
+  "is_valid": true,
+  "calibration_timestamp": 1760981783.4332533
+}

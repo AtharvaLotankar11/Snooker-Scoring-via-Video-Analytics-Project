@@ -1,0 +1,13 @@
+{
+  "timestamp": 1760982716.5482268,
+  "video_source": "",
+  "frame_number": 1,
+  "table_dimensions": [
+    3.569,
+    1.778
+  ],
+  "corners_count": 4,
+  "pockets_count": 6,
+  "is_valid": true,
+  "calibration_timestamp": 1760982716.5425994
+}

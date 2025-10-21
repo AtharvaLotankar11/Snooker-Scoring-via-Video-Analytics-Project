@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Debug Test</title>
+    
+    <!-- CSS Variables and Theme System -->
+    <link href="static/css/variables.css" rel="stylesheet">
+    <link href="static/css/themes/light-theme.css" rel="stylesheet">
+    <link href="static/css/themes/dark-theme.css" rel="stylesheet">
+    <link href="static/css/themes/theme-components.css" rel="stylesheet">
+    <link href="static/css/theme-transitions.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: var(--font-family-sans);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 2rem;
+            transition: all var(--transition-normal);
+            min-height: 100vh;
+        }
+        
+        .debug-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .debug-card {
+            background: var(--surface-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            margin-bottom: var(--space-4);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+        }
+        
+        .debug-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .theme-controls {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        
+        .theme-btn {
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            border: none;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            font-weight: var(--font-weight-semibold);
+            transition: all var(--transition-normal);
+        }
+        
+        .theme-btn:hover {
+            background: var(--btn-primary-hover);
+            transform: translateY(-2px);
+        }
+        
+        .theme-btn.secondary {
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text);
+        }
+        
+        .theme-btn.secondary:hover {
+            background: var(--btn-secondary-hover);
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        
+        .status-item {
+            background: var(--surface-secondary);
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-primary);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: var(--space-2);
+        }
+        
+        .status-success {
+            background: var(--success);
+        }
+        
+        .status-error {
+            background: var(--error);
+        }
+        
+        .debug-info {
+            background: var(--surface-tertiary);
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .color-swatches {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: var(--space-3);
+        }
+        
+        .color-swatch {
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-size: var(--font-size-sm);
+            border: 1px solid var(--border-primary);
+        }
+        
+        .swatch-primary { background: var(--primary); color: var(--text-inverse); }
+        .swatch-secondary { background: var(--secondary); color: var(--text-inverse); }
+        .swatch-success { background: var(--success); color: var(--text-inverse); }
+        .swatch-warning { background: var(--warning); color: var(--text-inverse); }
+        .swatch-error { background: var(--error); color: var(--text-inverse); }
+        .swatch-surface { background: var(--surface-primary); color: var(--text-primary); }
+        .swatch-text { background: var(--text-primary); color: var(--bg-primary); }
+    </style>
+</head>
+<body data-theme="dark" class="theme-transition">
+    <div class="debug-container">
+        <h1>Theme System Debug Tool</h1>
+        
+        <div class="debug-card">
+            <h2>Theme Controls</h2>
+            <div class="theme-controls">
+                <button id="toggleTheme" class="theme-btn">
+                    <span id="themeIcon">🌙</span>
+                    Toggle Theme
+                </button>
+                <button id="setLight" class="theme-btn secondary">Set Light</button>
+                <button id="setDark" class="theme-btn secondary">Set Dark</button>
+                <button id="setAuto" class="theme-btn secondary">Set Auto</button>
+            </div>
+            <p>Current theme: <strong id="currentTheme">unknown</strong></p>
+            <p>Stored preference: <strong id="storedTheme">unknown</strong></p>
+            <p>System preference: <strong id="systemTheme">unknown</strong></p>
+        </div>
+        
+        <div class="debug-card">
+            <h2>System Status</h2>
+            <div class="status-grid">
+                <div class="status-item">
+                    <span id="themeManagerStatus" class="status-indicator status-error"></span>
+                    ThemeManager
+                </div>
+                <div class="status-item">
+                    <span id="persistenceStatus" class="status-indicator status-error"></span>
+                    Persistence
+                </div>
+                <div class="status-item">
+                    <span id="cssVariablesStatus" class="status-indicator status-error"></span>
+                    CSS Variables
+                </div>
+                <div class="status-item">
+                    <span id="transitionsStatus" class="status-indicator status-error"></span>
+                    Transitions
+                </div>
+            </div>
+        </div>
+        
+        <div class="debug-card">
+            <h2>Color Swatches</h2>
+            <div class="color-swatches">
+                <div class="color-swatch swatch-primary">Primary</div>
+                <div class="color-swatch swatch-secondary">Secondary</div>
+                <div class="color-swatch swatch-success">Success</div>
+                <div class="color-swatch swatch-warning">Warning</div>
+                <div class="color-swatch swatch-error">Error</div>
+                <div class="color-swatch swatch-surface">Surface</div>
+                <div class="color-swatch swatch-text">Text</div>
+            </div>
+        </div>
+        
+        <div class="debug-card">
+            <h2>Debug Information</h2>
+            <div id="debugInfo" class="debug-info">Loading debug information...</div>
+        </div>
+    </div>
+
+    <!-- Theme Management Scripts -->
+    <script src="static/js/theme-manager.js"></script>
+    <script src="static/js/theme-switcher.js"></script>
+    <script src="static/js/theme-persistence.js"></script>
+
+    <script>
+        let themeManager = null;
+        let debugInfo = {};
+        
+        // Initialize theme system
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Starting comprehensive theme debug...');
+            
+            try {
+                // Test CSS variables
+                testCSSVariables();
+                
+                // Initialize ThemeManager
+                themeManager = new ThemeManager({
+                    defaultTheme: 'dark',
+                    storageKey: 'snooker-theme-preference',
+                    transitionDuration: 300
+                });
+                
+                updateStatus('themeManagerStatus', true);
+                console.log('✅ ThemeManager initialized');
+                
+                // Get current theme
+                const currentTheme = themeManager.getCurrentTheme();
+                updateCurrentTheme(currentTheme);
+                updateStoredTheme();
+                updateSystemTheme();
+                
+                // Setup event listeners
+                setupEventListeners();
+                
+                // Listen for theme changes
+                themeManager.addObserver((event, data) => {
+                    if (event === 'themeChanged') {
+                        console.log('🎨 Theme changed:', data);
+                        updateCurrentTheme(data.to);
+                        updateStoredTheme();
+                        updateThemeIcon(data.to);
+                        updateDebugInfo();
+                    }
+                });
+                
+                updateStatus('persistenceStatus', true);
+                updateStatus('transitionsStatus', true);
+                
+                // Initial debug info update
+                updateDebugInfo();
+                
+                console.log('✅ Theme debug system initialized successfully');
+                
+            } catch (error) {
+                console.error('❌ Theme debug initialization failed:', error);
+                updateStatus('themeManagerStatus', false);
+                updateDebugInfo(error);
+            }
+        });
+        
+        function testCSSVariables() {
+            const testElement = document.createElement('div');
+            document.body.appendChild(testElement);
+            
+            const computedStyle = getComputedStyle(testElement);
+            const primaryColor = computedStyle.getPropertyValue('--primary');
+            const bgColor = computedStyle.getPropertyValue('--bg-primary');
+            
+            document.body.removeChild(testElement);
+            
+            if (primaryColor && bgColor) {
+                updateStatus('cssVariablesStatus', true);
+                debugInfo.cssVariables = { primaryColor, bgColor };
+            } else {
+                updateStatus('cssVariablesStatus', false);
+                debugInfo.cssVariables = { error: 'CSS variables not found' };
+            }
+        }
+        
+        function setupEventListeners() {
+            document.getElementById('toggleTheme').addEventListener('click', () => {
+                if (themeManager) {
+                    themeManager.toggleTheme();
+                }
+            });
+            
+            document.getElementById('setLight').addEventListener('click', () => {
+                if (themeManager) {
+                    themeManager.setTheme('light');
+                }
+            });
+            
+            document.getElementById('setDark').addEventListener('click', () => {
+                if (themeManager) {
+                    themeManager.setTheme('dark');
+                }
+            });
+            
+            document.getElementById('setAuto').addEventListener('click', () => {
+                if (themeManager) {
+                    themeManager.setTheme('auto');
+                }
+            });
+        }
+        
+        function updateStatus(elementId, isWorking) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.className = `status-indicator ${isWorking ? 'status-success' : 'status-error'}`;
+            }
+        }
+        
+        function updateCurrentTheme(theme) {
+            document.getElementById('currentTheme').textContent = theme;
+            debugInfo.currentTheme = theme;
+        }
+        
+        function updateStoredTheme() {
+            try {
+                const stored = localStorage.getItem('snooker-theme-preference');
+                let storedTheme = 'none';
+                
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        storedTheme = parsed.theme || stored;
+                    } catch {
+                        storedTheme = stored;
+                    }
+                }
+                
+                document.getElementById('storedTheme').textContent = storedTheme;
+                debugInfo.storedTheme = { raw: stored, parsed: storedTheme };
+            } catch (error) {
+                document.getElementById('storedTheme').textContent = 'error';
+                debugInfo.storedTheme = { error: error.message };
+            }
+        }
+        
+        function updateSystemTheme() {
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const systemTheme = systemPrefersDark ? 'dark' : 'light';
+            document.getElementById('systemTheme').textContent = systemTheme;
+            debugInfo.systemTheme = systemTheme;
+        }
+        
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+        
+        function updateDebugInfo(error = null) {
+            const debugElement = document.getElementById('debugInfo');
+            
+            if (error) {
+                debugInfo.error = error.message || error.toString();
+            }
+            
+            if (themeManager) {
+                debugInfo.themeManagerInfo = themeManager.getDebugInfo();
+            }
+            
+            debugInfo.timestamp = new Date().toISOString();
+            debugInfo.userAgent = navigator.userAgent;
+            debugInfo.viewport = {
+                width: window.innerWidth,
+                height: window.innerHeight
+            };
+            
+            // Get computed CSS values
+            const computedStyle = getComputedStyle(document.body);
+            debugInfo.computedStyles = {
+                backgroundColor: computedStyle.backgroundColor,
+                color: computedStyle.color,
+                primary: computedStyle.getPropertyValue('--primary'),
+                bgPrimary: computedStyle.getPropertyValue('--bg-primary'),
+                textPrimary: computedStyle.getPropertyValue('--text-primary')
+            };
+            
+            debugElement.textContent = JSON.stringify(debugInfo, null, 2);
+        }
+        
+        // Update debug info every 5 seconds
+        setInterval(updateDebugInfo, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,2087 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Snooker Ball Detection System{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CSS Variables and Theme System -->
+    <link
+      href="{{ url_for('static', filename='css/variables.css') }}?v={{ cache_version() }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='css/themes/light-theme.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='css/themes/dark-theme.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='css/themes/theme-components.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='css/theme-transitions.css') }}"
+      rel="stylesheet"
+    />
+
+    <!-- Theme-Aware Snooker UI Styles -->
+    <link
+      href="{{ url_for('static', filename='css/main.css') }}"
+      rel="stylesheet"
+    />
+
+    <!-- Industry Standard Fixes -->
+    <link
+      href="{{ url_for('static', filename='css/industry-standard-fixes.css') }}"
+      rel="stylesheet"
+    />
+
+    <!-- Notification Popup Fixes -->
+    <link
+      href="{{ url_for('static', filename='css/notification-fixes.css') }}"
+      rel="stylesheet"
+    />
+
+    <!-- Upload Page Theme Fixes -->
+    <link
+      href="{{ url_for('static', filename='css/upload-theme-fixes.css') }}"
+      rel="stylesheet"
+    />
+
+    <!-- Theme Management Scripts -->
+    <script src="{{ url_for('static', filename='js/theme-manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme-switcher.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme-persistence.js') }}"></script>
+    
+    <!-- URL Consistency Manager -->
+    <script src="{{ url_for('static', filename='js/url-consistency.js') }}"></script>
+
+    <!-- SEO and Performance Meta Tags -->
+    <meta
+      name="description"
+      content="Professional AI-powered snooker ball detection and analysis system. Get instant insights with 85%+ accuracy, real-time tracking, and comprehensive analytics."
+    />
+    <meta
+      name="keywords"
+      content="snooker, ball detection, AI analysis, sports analytics, computer vision, ball tracking"
+    />
+    <meta name="author" content="Snooker Detection Pro" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta
+      property="og:title"
+      content="Snooker Detection Pro - AI-Powered Game Analysis"
+    />
+    <meta
+      property="og:description"
+      content="Professional snooker analysis with AI-powered ball detection, tracking, and comprehensive analytics."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.url }}" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Snooker Detection Pro" />
+    <meta
+      name="twitter:description"
+      content="AI-powered snooker analysis system with professional-grade insights."
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{{ url_for('static', filename='apple-touch-icon.png') }}"
+    />
+
+    <!-- Preload Critical Resources -->
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      as="style"
+    />
+    <link
+      rel="preload"
+      href="{{ url_for('static', filename='css/main.css') }}"
+      as="style"
+    />
+
+    <!-- Critical CSS for immediate text contrast and theme fixes -->
+    <style>
+      /* Remove any default margins/padding that might cause navbar spacing */
+      html,
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100%;
+      }
+
+      /* Ensure no space above navbar */
+      body {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+      }
+
+      /* Remove any potential spacing from container elements */
+      .container-fluid {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+      }
+
+      /* Immediate text contrast fixes */
+      [data-theme="light"] {
+        --text-primary: #1a202c !important;
+        --text-secondary: #4a5568 !important;
+        --bg-primary: #ffffff !important;
+        --bg-secondary: #f7fafc !important;
+      }
+      [data-theme="dark"] {
+        --text-primary: #ffffff !important;
+        --text-secondary: #e2e8f0 !important;
+        --bg-primary: #1a202c !important;
+        --bg-secondary: #2d3748 !important;
+      }
+
+      /* Apply theme colors to body */
+      body {
+        background-color: var(--bg-primary) !important;
+        color: var(--text-primary) !important;
+        transition: all 0.3s ease !important;
+      }
+
+      /* Text elements */
+      body,
+      p,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      .text-primary,
+      .card-title,
+      .feature-title {
+        color: var(--text-primary) !important;
+      }
+      .text-secondary,
+      .card-text,
+      .feature-description {
+        color: var(--text-secondary) !important;
+      }
+
+      /* Light theme specific fixes - Enhanced visual design */
+      [data-theme="light"] body {
+        background: linear-gradient(
+          135deg,
+          #f8fafc 0%,
+          #ffffff 50%,
+          #f1f5f9 100%
+        ) !important;
+      }
+
+      [data-theme="light"] .navbar {
+        background: linear-gradient(
+          135deg,
+          rgba(248, 249, 250, 0.95),
+          rgba(233, 236, 239, 0.95)
+        ) !important;
+        border-bottom: 2px solid rgba(11, 64, 91, 0.3) !important;
+      }
+
+      [data-theme="light"] .navbar .nav-link {
+        color: #1a202c !important;
+      }
+
+      [data-theme="light"] .navbar .navbar-brand {
+        color: #1a202c !important;
+      }
+
+      [data-theme="light"] .navbar .text-muted {
+        color: #4a5568 !important;
+      }
+
+      /* Comprehensive Light Mode Fixes */
+      [data-theme="light"] .bg-dark {
+        background: #ffffff !important;
+        color: #1a202c !important;
+      }
+
+      [data-theme="light"] .text-white {
+        color: #1a202c !important;
+      }
+
+      [data-theme="light"] .text-light {
+        color: #1a202c !important;
+      }
+
+      [data-theme="light"] .modal-content {
+        background: #ffffff !important;
+        color: #1a202c !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+
+      [data-theme="light"] .modal-header {
+        background: #f8f9fa !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+      }
+
+      [data-theme="light"] .modal-body {
+        background: #ffffff !important;
+        color: #1a202c !important;
+      }
+
+      /* Stats cards and components - Enhanced with depth */
+      [data-theme="light"] .stat-item,
+      [data-theme="light"] .stats-grid > div,
+      [data-theme="light"] .card {
+        background: linear-gradient(
+          145deg,
+          #ffffff 0%,
+          #f8fafc 100%
+        ) !important;
+        color: #1a202c !important;
+        border: 1px solid rgba(11, 64, 91, 0.1) !important;
+        box-shadow: 0 4px 12px rgba(11, 64, 91, 0.08),
+          0 2px 4px rgba(0, 0, 0, 0.05) !important;
+        transition: all 0.3s ease !important;
+      }
+
+      [data-theme="light"] .stat-item:hover,
+      [data-theme="light"] .stats-grid > div:hover,
+      [data-theme="light"] .card:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(11, 64, 91, 0.12),
+          0 4px 8px rgba(0, 0, 0, 0.08) !important;
+        border-color: rgba(148, 216, 42, 0.3) !important;
+      }
+
+      [data-theme="light"] .card-title,
+      [data-theme="light"] .card-text {
+        color: #1a202c !important;
+      }
+
+      /* Alert and badge fixes */
+      [data-theme="light"] .alert {
+        background: #f8f9fa !important;
+        color: #1a202c !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+
+      [data-theme="light"] .badge {
+        color: #ffffff !important;
+      }
+
+      /* Button fixes */
+      [data-theme="light"] .btn-close-white {
+        filter: invert(1) !important;
+      }
+
+      /* Section backgrounds */
+      [data-theme="light"] section {
+        background: transparent !important;
+      }
+
+      [data-theme="light"] .hero-section {
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #f8f9fa 100%
+        ) !important;
+      }
+
+      /* Override any dark backgrounds in light mode */
+      [data-theme="light"] * {
+        border-color: #e2e8f0 !important;
+      }
+
+      [data-theme="light"] .border-primary {
+        border-color: #0b405b !important;
+      }
+
+      [data-theme="light"] .border-secondary {
+        border-color: #94d82a !important;
+      }
+
+      /* Override snooker-ui.css dark theme styles for light mode */
+      [data-theme="light"] {
+        --dark-bg: #ffffff !important;
+        --card-bg: #ffffff !important;
+        --surface-light: #f8f9fa !important;
+        --surface-hover: #e9ecef !important;
+        --text-primary: #1a202c !important;
+        --text-secondary: #4a5568 !important;
+        --text-accent: #0b405b !important;
+        --text-muted: #6b7280 !important;
+      }
+
+      /* Stats grid and system overview fixes */
+      [data-theme="light"] .stats-grid,
+      [data-theme="light"] .stat-item,
+      [data-theme="light"] .stat-energy,
+      [data-theme="light"] .stat-victory,
+      [data-theme="light"] .stat-champion {
+        background: #ffffff !important;
+        color: #1a202c !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+      }
+
+      [data-theme="light"] .stat-value {
+        color: #1a202c !important;
+      }
+
+      [data-theme="light"] .stat-label {
+        color: #4a5568 !important;
+      }
+
+      /* Card system fixes */
+      [data-theme="light"] .card-feature,
+      [data-theme="light"] .card-energy,
+      [data-theme="light"] .card-victory,
+      [data-theme="light"] .card-champion,
+      [data-theme="light"] .card-base {
+        background: #ffffff !important;
+        color: #1a202c !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+      }
+
+      /* Feature cards */
+      [data-theme="light"] .feature-title {
+        color: #1a202c !important;
+      }
+
+      [data-theme="light"] .feature-description {
+        color: #4a5568 !important;
+      }
+
+      [data-theme="light"] .feature-icon {
+        background: #f8f9fa !important;
+        color: #0b405b !important;
+      }
+
+      /* Badge fixes */
+      [data-theme="light"] .badge-energetic {
+        color: #ffffff !important;
+      }
+
+      /* Section backgrounds */
+      [data-theme="light"] .bg-dark {
+        background: #f8f9fa !important;
+        color: #1a202c !important;
+      }
+
+      /* Enhanced powered by section */
+      [data-theme="light"] .powered-by-section {
+        background: linear-gradient(
+          135deg,
+          rgba(248, 250, 252, 0.8) 0%,
+          rgba(255, 255, 255, 0.9) 50%,
+          rgba(241, 245, 249, 0.8) 100%
+        ) !important;
+        color: #1a202c !important;
+        border: 1px solid rgba(11, 64, 91, 0.1) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 20px rgba(11, 64, 91, 0.05) !important;
+        backdrop-filter: blur(10px) !important;
+        position: relative !important;
+        overflow: hidden !important;
+      }
+
+      [data-theme="light"] .powered-by-section::before {
+        content: "" !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 2px !important;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(11, 64, 91, 0.3) 25%,
+          rgba(148, 216, 42, 0.3) 75%,
+          transparent 100%
+        ) !important;
+      }
+
+      [data-theme="light"] .powered-by-title {
+        color: #4a5568 !important;
+        font-weight: 600 !important;
+      }
+
+      /* Ball indicators */
+      [data-theme="light"] .ball-indicator {
+        border: 2px solid #e2e8f0 !important;
+      }
+
+      /* Override any remaining dark elements */
+      [data-theme="light"] .text-warning {
+        color: #d97706 !important;
+      }
+
+      [data-theme="light"] .text-info {
+        color: #0369a1 !important;
+      }
+
+      [data-theme="light"] .text-success {
+        color: #059669 !important;
+      }
+
+      [data-theme="light"] .text-danger {
+        color: #dc2626 !important;
+      }
+
+      /* Logo visibility fixes for light mode */
+      [data-theme="light"] .partner-logo,
+      [data-theme="light"] .navbar-company-logo,
+      [data-theme="light"] .footer-company-logo,
+      [data-theme="light"] .footer-partner-logo,
+      [data-theme="light"] .powered-by-logo,
+      [data-theme="light"] .company-logo {
+        opacity: 1 !important;
+        filter: brightness(0.8) contrast(1.2) !important;
+        background: rgba(248, 249, 250, 0.8) !important;
+        border: 1px solid rgba(11, 64, 91, 0.1) !important;
+      }
+
+      [data-theme="light"] .partner-logo:hover,
+      [data-theme="light"] .navbar-company-logo:hover,
+      [data-theme="light"] .footer-company-logo:hover,
+      [data-theme="light"] .footer-partner-logo:hover,
+      [data-theme="light"] .powered-by-logo:hover,
+      [data-theme="light"] .company-logo:hover {
+        opacity: 1 !important;
+        filter: brightness(0.9) contrast(1.3) !important;
+        background: rgba(11, 64, 91, 0.1) !important;
+        border-color: rgba(11, 64, 91, 0.3) !important;
+        transform: scale(1.05) !important;
+      }
+
+      /* Partner logo container fixes */
+      [data-theme="light"] .partner-logo-container::before {
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(11, 64, 91, 0.2),
+          transparent
+        ) !important;
+      }
+
+      [data-theme="light"] .partner-logo-item::before {
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(11, 64, 91, 0.2),
+          transparent
+        ) !important;
+      }
+
+      /* Force logo visibility in light mode - override all filters */
+      [data-theme="light"] img[src*="logo"] {
+        opacity: 1 !important;
+        filter: none !important;
+        visibility: visible !important;
+        display: inline-block !important;
+      }
+
+      /* Specific logo styling for light mode */
+      [data-theme="light"] img[src*="primary-logo"],
+      [data-theme="light"] img[src*="color-logo"] {
+        opacity: 0.9 !important;
+        filter: brightness(0.9) contrast(1.1) !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        border-radius: 8px !important;
+        padding: 4px !important;
+      }
+
+      [data-theme="light"] img[src*="primary-logo"]:hover,
+      [data-theme="light"] img[src*="color-logo"]:hover {
+        opacity: 1 !important;
+        filter: brightness(1) contrast(1.2) !important;
+        transform: scale(1.05) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+      }
+
+      /* Hide ZEMO logo watermarks completely */
+      [data-theme="light"] .card-logo-watermark {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+      }
+
+      [data-theme="light"] .card-logo-watermark.logo-1,
+      [data-theme="light"] .card-logo-watermark.logo-2,
+      [data-theme="light"] .card-logo-watermark.logo-3 {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+      }
+
+      /* Hero section enhancement for light mode */
+      [data-theme="light"] .hero-section {
+        background: linear-gradient(
+          135deg,
+          rgba(11, 64, 91, 0.03) 0%,
+          rgba(248, 250, 252, 1) 25%,
+          rgba(255, 255, 255, 1) 50%,
+          rgba(241, 245, 249, 1) 75%,
+          rgba(148, 216, 42, 0.03) 100%
+        ) !important;
+        position: relative !important;
+      }
+
+      [data-theme="light"] .hero-section::before {
+        content: "" !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: radial-gradient(
+            circle at 30% 20%,
+            rgba(11, 64, 91, 0.05) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 70% 80%,
+            rgba(148, 216, 42, 0.05) 0%,
+            transparent 50%
+          ) !important;
+        pointer-events: none !important;
+      }
+
+      /* Hero logo backdrop for light mode */
+      [data-theme="light"] .hero-logo-backdrop {
+        opacity: 0.04 !important;
+        filter: grayscale(60%) brightness(0.8) !important;
+      }
+
+      /* Feature icons for light mode - Enhanced with brand colors */
+      [data-theme="light"] .feature-icon,
+      [data-theme="light"] .feature-icon-playful {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 80px !important;
+        height: 80px !important;
+        border-radius: 20px !important;
+        margin: 0 auto 20px auto !important;
+        font-size: 3.5rem !important;
+        border: 2px solid rgba(11, 64, 91, 0.15) !important;
+        box-shadow: 0 6px 20px rgba(11, 64, 91, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+        background: linear-gradient(
+          145deg,
+          #ffffff 0%,
+          rgba(11, 64, 91, 0.03) 100%
+        ) !important;
+        transition: all 0.3s ease !important;
+        position: relative !important;
+      }
+
+      [data-theme="light"] .feature-icon::before,
+      [data-theme="light"] .feature-icon-playful::before {
+        content: "" !important;
+        position: absolute !important;
+        top: -2px !important;
+        left: -2px !important;
+        right: -2px !important;
+        bottom: -2px !important;
+        background: linear-gradient(
+          45deg,
+          rgba(11, 64, 91, 0.1),
+          rgba(148, 216, 42, 0.1)
+        ) !important;
+        border-radius: 22px !important;
+        z-index: -1 !important;
+        opacity: 0 !important;
+        transition: opacity 0.3s ease !important;
+      }
+
+      /* Make the actual icons visible and colored */
+      [data-theme="light"] .feature-icon i,
+      [data-theme="light"] .feature-icon-playful i {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+        color: #0b405b !important;
+        font-size: 2.5rem !important;
+        text-shadow: none !important;
+      }
+
+      /* Different colors for each feature icon */
+      [data-theme="light"] .card-energy .feature-icon i,
+      [data-theme="light"] .card-energy .feature-icon-playful i {
+        color: #059669 !important;
+      }
+
+      [data-theme="light"] .card-victory .feature-icon i,
+      [data-theme="light"] .card-victory .feature-icon-playful i {
+        color: #2563eb !important;
+      }
+
+      [data-theme="light"] .card-champion .feature-icon i,
+      [data-theme="light"] .card-champion .feature-icon-playful i {
+        color: #dc2626 !important;
+      }
+
+      [data-theme="light"] .card-base .feature-icon i,
+      [data-theme="light"] .card-base .feature-icon-playful i {
+        color: #7c3aed !important;
+      }
+
+      /* Enhanced hover effects for icons */
+      [data-theme="light"] .feature-icon:hover,
+      [data-theme="light"] .feature-icon-playful:hover {
+        transform: translateY(-4px) scale(1.02) !important;
+        box-shadow: 0 12px 30px rgba(11, 64, 91, 0.15),
+          inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+        border-color: rgba(148, 216, 42, 0.4) !important;
+      }
+
+      [data-theme="light"] .feature-icon:hover::before,
+      [data-theme="light"] .feature-icon-playful:hover::before {
+        opacity: 1 !important;
+      }
+
+      [data-theme="light"] .feature-icon:hover i,
+      [data-theme="light"] .feature-icon-playful:hover i {
+        transform: scale(1.1) !important;
+      }
+
+      /* Notification/Toast styling for light mode */
+      [data-theme="light"] .toast,
+      [data-theme="light"] .notification,
+      [data-theme="light"] .alert-dark,
+      [data-theme="light"] .tooltip,
+      [data-theme="light"] .popover {
+        background: #ffffff !important;
+        color: #1a202c !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+      }
+
+      /* Specific notification popup styling */
+      [data-theme="light"] .toast-header {
+        background: #f8f9fa !important;
+        color: #1a202c !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+      }
+
+      [data-theme="light"] .toast-body {
+        background: #ffffff !important;
+        color: #1a202c !important;
+      }
+
+      /* Bootstrap tooltip and popover fixes */
+      [data-theme="light"] .bs-tooltip-top .tooltip-arrow::before,
+      [data-theme="light"] .bs-tooltip-bottom .tooltip-arrow::before {
+        border-top-color: #ffffff !important;
+        border-bottom-color: #ffffff !important;
+      }
+
+      /* Any dark notification elements */
+      [data-theme="light"] [class*="notification"],
+      [data-theme="light"] [class*="toast"],
+      [data-theme="light"] [style*="background: black"],
+      [data-theme="light"] [style*="background-color: black"],
+      [data-theme="light"] [style*="background: #000"] {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        color: #1a202c !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+
+      /* Force override any remaining dark elements */
+      [data-theme="light"] * {
+        color: inherit !important;
+      }
+
+      [data-theme="light"] .bg-dark,
+      [data-theme="light"] [class*="bg-dark"],
+      [data-theme="light"] [style*="background: #"],
+      [data-theme="light"] [style*="background-color: #"] {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+      }
+
+      /* System overview section - Enhanced design */
+      [data-theme="light"] .py-5.bg-dark {
+        background: linear-gradient(
+          135deg,
+          rgba(11, 64, 91, 0.02) 0%,
+          rgba(248, 250, 252, 1) 25%,
+          rgba(255, 255, 255, 0.9) 50%,
+          rgba(241, 245, 249, 1) 75%,
+          rgba(148, 216, 42, 0.02) 100%
+        ) !important;
+        border-top: 1px solid rgba(11, 64, 91, 0.1) !important;
+        border-bottom: 1px solid rgba(11, 64, 91, 0.1) !important;
+        position: relative !important;
+      }
+
+      [data-theme="light"] .py-5.bg-dark::before {
+        content: "" !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: radial-gradient(
+            circle at 20% 50%,
+            rgba(11, 64, 91, 0.03) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            circle at 80% 50%,
+            rgba(148, 216, 42, 0.03) 0%,
+            transparent 60%
+          ) !important;
+        pointer-events: none !important;
+      }
+
+      /* Ensure all text is readable in light mode */
+      [data-theme="light"] h1,
+      [data-theme="light"] h2,
+      [data-theme="light"] h3,
+      [data-theme="light"] h4,
+      [data-theme="light"] h5,
+      [data-theme="light"] h6,
+      [data-theme="light"] p,
+      [data-theme="light"] span,
+      [data-theme="light"] div {
+        color: #1a202c !important;
+      }
+
+      [data-theme="light"] .text-muted {
+        color: #6b7280 !important;
+      }
+
+      /* Important: Override inline styles */
+      [data-theme="light"] [style*="color: white"],
+      [data-theme="light"] [style*="color: #fff"],
+      [data-theme="light"] [style*="color: #ffffff"] {
+        color: #1a202c !important;
+      }
+
+      /* Additional comprehensive light mode fixes - Enhanced */
+      [data-theme="light"] .hero-section {
+        background: linear-gradient(
+          135deg,
+          rgba(11, 64, 91, 0.03) 0%,
+          rgba(248, 250, 252, 1) 25%,
+          rgba(255, 255, 255, 1) 50%,
+          rgba(241, 245, 249, 1) 75%,
+          rgba(148, 216, 42, 0.03) 100%
+        ) !important;
+        color: #1a202c !important;
+        position: relative !important;
+      }
+
+      /* Add subtle pattern overlay */
+      [data-theme="light"] .hero-section .container {
+        position: relative !important;
+        z-index: 2 !important;
+      }
+
+      [data-theme="light"] .lead {
+        color: #4a5568 !important;
+      }
+
+      [data-theme="light"] .display-4,
+      [data-theme="light"] .display-5 {
+        color: #1a202c !important;
+      }
+
+      /* Badge fixes for light mode */
+      [data-theme="light"] .badge {
+        color: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      }
+
+      [data-theme="light"] .badge.bg-success {
+        background-color: #059669 !important;
+      }
+
+      [data-theme="light"] .badge.bg-info {
+        background-color: #0369a1 !important;
+      }
+
+      [data-theme="light"] .badge.bg-warning {
+        background-color: #d97706 !important;
+        color: #ffffff !important;
+      }
+
+      /* Enhanced button styling for light mode */
+      [data-theme="light"] .btn-primary {
+        background: linear-gradient(
+          135deg,
+          #0b405b 0%,
+          #093649 100%
+        ) !important;
+        border-color: #0b405b !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(11, 64, 91, 0.3) !important;
+        transition: all 0.3s ease !important;
+      }
+
+      [data-theme="light"] .btn-primary:hover {
+        background: linear-gradient(
+          135deg,
+          #093649 0%,
+          #072c37 100%
+        ) !important;
+        border-color: #093649 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(11, 64, 91, 0.4) !important;
+      }
+
+      [data-theme="light"] .btn-success {
+        background: linear-gradient(
+          135deg,
+          #059669 0%,
+          #047857 100%
+        ) !important;
+        border-color: #059669 !important;
+        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3) !important;
+      }
+
+      [data-theme="light"] .btn-success:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4) !important;
+      }
+
+      [data-theme="light"] .btn-info {
+        background: linear-gradient(
+          135deg,
+          #0369a1 0%,
+          #0284c7 100%
+        ) !important;
+        border-color: #0369a1 !important;
+        box-shadow: 0 4px 12px rgba(3, 105, 161, 0.3) !important;
+      }
+
+      [data-theme="light"] .btn-info:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(3, 105, 161, 0.4) !important;
+      }
+
+      /* Special styling for energetic buttons */
+      [data-theme="light"] .btn-energetic,
+      [data-theme="light"] .btn-energy {
+        background: linear-gradient(
+          135deg,
+          #94d82a 0%,
+          #7bc220 100%
+        ) !important;
+        border: none !important;
+        color: #1a202c !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 15px rgba(148, 216, 42, 0.4) !important;
+        transition: all 0.3s ease !important;
+      }
+
+      [data-theme="light"] .btn-energetic:hover,
+      [data-theme="light"] .btn-energy:hover {
+        background: linear-gradient(
+          135deg,
+          #7bc220 0%,
+          #62ac16 100%
+        ) !important;
+        transform: translateY(-3px) scale(1.02) !important;
+        box-shadow: 0 8px 25px rgba(148, 216, 42, 0.5) !important;
+        color: #ffffff !important;
+      }
+
+      /* Alert fixes for light mode */
+      [data-theme="light"] .alert-info {
+        background-color: rgba(3, 105, 161, 0.1) !important;
+        border-color: rgba(3, 105, 161, 0.2) !important;
+        color: #0369a1 !important;
+      }
+
+      /* Ensure proper spacing and no unwanted margins */
+      [data-theme="light"] body {
+        margin: 0 !important;
+        padding: 0 !important;
+        padding-top: 0 !important;
+      }
+
+      [data-theme="light"] .container,
+      [data-theme="light"] .container-fluid {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+      }
+
+      /* Fix any potential spacing issues */
+      [data-theme="light"] section:first-child {
+        margin-top: 0 !important;
+        padding-top: 2rem !important;
+      }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body data-theme="dark" class="theme-transition">
+    <!-- Immediate Theme Detection Script - Prevents Flash -->
+    <script>
+      (function () {
+        // Get stored theme preference immediately
+        const storedTheme = localStorage.getItem("snooker-theme-preference");
+        const systemPrefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+
+        // Determine initial theme
+        let initialTheme = "dark"; // default
+
+        if (storedTheme) {
+          try {
+            // Try to parse as JSON (ThemeManager format)
+            const themeData = JSON.parse(storedTheme);
+            if (themeData.theme) {
+              initialTheme = themeData.theme;
+            }
+          } catch (e) {
+            // Fallback: treat as plain string
+            if (
+              storedTheme === "light" ||
+              storedTheme === "dark" ||
+              storedTheme === "auto"
+            ) {
+              initialTheme = storedTheme;
+            }
+          }
+        }
+
+        // Resolve 'auto' theme based on system preference
+        if (initialTheme === "auto") {
+          initialTheme = systemPrefersDark ? "dark" : "light";
+        }
+
+        // Apply theme immediately to prevent flash
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.body.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme;
+
+        // Update meta theme-color for mobile browsers
+        let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+        if (!metaThemeColor) {
+          metaThemeColor = document.createElement("meta");
+          metaThemeColor.name = "theme-color";
+          document.head.appendChild(metaThemeColor);
+        }
+        metaThemeColor.content =
+          initialTheme === "light" ? "#ffffff" : "#0f172a";
+
+        console.log("🎨 Initial theme applied:", initialTheme);
+      })();
+    </script>
+    <!-- Enhanced Navigation -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-lg navbar-themed"
+      id="mainNavbar"
+      role="navigation"
+      aria-label="Main navigation"
+    >
+      <div class="container-fluid px-4">
+        <!-- Brand Section -->
+        <a
+          class="navbar-brand d-flex align-items-center"
+          href="{{ url_for('index') }}"
+          style="font-weight: 700; font-size: 1.4rem"
+        >
+          <div
+            class="brand-icon me-3"
+            style="
+              background: linear-gradient(45deg, #ffc107, #fd7e14);
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+            "
+          >
+            <i
+              class="fas fa-circle"
+              style="color: white; font-size: 1.2rem"
+            ></i>
+          </div>
+          <div class="brand-text">
+            <div
+              style="
+                background: linear-gradient(45deg, #94d82a, #00cec9);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+              "
+            >
+              Snooker Detection Pro
+            </div>
+            <small
+              class="text-muted d-none d-lg-block"
+              style="font-size: 0.75rem; font-weight: 400; margin-top: -2px"
+            >
+              Advanced AI-powered snooker analysis
+            </small>
+          </div>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          style="box-shadow: none; padding: 8px"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link px-3 py-2 rounded-pill mx-1 transition-all"
+                href="{{ url_for('index') }}"
+                style="font-weight: 500; transition: all 0.3s ease"
+              >
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link px-3 py-2 rounded-pill mx-1 transition-all"
+                href="{{ url_for('upload_page') }}"
+                style="font-weight: 500; transition: all 0.3s ease"
+              >
+                <i class="fas fa-cloud-upload-alt me-2"></i>Analyze Video
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link px-3 py-2 rounded-pill mx-1 transition-all"
+                href="{{ url_for('team') }}"
+                style="font-weight: 500; transition: all 0.3s ease"
+              >
+                <i class="fas fa-users me-2"></i>Meet Our Team
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link px-3 py-2 rounded-pill mx-1 transition-all"
+                href="#"
+                onclick="checkSystemStatus()"
+                style="font-weight: 500; transition: all 0.3s ease"
+              >
+                <i class="fas fa-heartbeat me-2"></i>System Status
+              </a>
+            </li>
+          </ul>
+
+          <!-- Right Side Elements -->
+          <div class="d-flex align-items-center">
+            <!-- Partner Logos -->
+            <div
+              class="navbar-partner-logos d-none d-lg-flex align-items-center me-4"
+            >
+              <span
+                class="text-muted me-3"
+                style="font-size: 0.8rem; font-weight: 500"
+                >Powered by</span
+              >
+              <div class="partner-logo-container">
+                <img
+                  src="/common_logo/primary-logo.png"
+                  alt="Partner Company"
+                  class="partner-logo company-logo-tooltip"
+                  data-company="Technology Partner"
+                  style="
+                    height: 65px;
+                    width: auto;
+                    opacity: 0.9;
+                    filter: brightness(1.2) contrast(1.2);
+                    transition: all 0.3s ease;
+                    border-radius: 10px;
+                    padding: 6px;
+                    background: rgba(255, 255, 255, 0.08);
+                    box-shadow: 0 2px 10px rgba(148, 216, 42, 0.1);
+                  "
+                  onmouseover="this.style.opacity='1'; this.style.transform='scale(1.08)'; this.style.background='rgba(148, 216, 42, 0.15)'; this.style.boxShadow='0 4px 20px rgba(148, 216, 42, 0.3)'"
+                  onmouseout="this.style.opacity='0.9'; this.style.transform='scale(1)'; this.style.background='rgba(255,255,255,0.08)'; this.style.boxShadow='0 2px 10px rgba(148, 216, 42, 0.1)'"
+                  onerror="this.style.display='none'; console.log('Logo failed to load:', this.src);"
+                />
+              </div>
+            </div>
+
+            <!-- Theme Switcher -->
+            <div class="theme-switcher-container me-2">
+              <button
+                id="navbarThemeToggle"
+                class="btn btn-outline-light btn-sm rounded-pill px-3"
+                style="
+                  border: 1px solid rgba(148, 216, 42, 0.5);
+                  transition: all 0.3s ease;
+                "
+                onmouseover="this.style.background='rgba(148, 216, 42, 0.1)'; this.style.borderColor='#94D82A'"
+                onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(148, 216, 42, 0.5)'"
+              >
+                <i id="navbarThemeIcon" class="fas fa-moon me-1"></i>
+                <span class="d-none d-md-inline" id="navbarThemeText"
+                  >Dark</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Custom Navbar Styles -->
+    <style>
+      /* Hide skip navigation elements */
+      .skip-links,
+      .skip-link,
+      [class*="skip"],
+      [id*="skip"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+      }
+
+      .nav-link:hover {
+        background: rgba(148, 216, 42, 0.15) !important;
+        color: #94d82a !important;
+        transform: translateY(-1px);
+      }
+      .navbar-brand:hover .brand-icon {
+        transform: rotate(360deg);
+        transition: transform 0.6s ease;
+      }
+      .partner-logo-container {
+        position: relative;
+      }
+      .partner-logo-container::before {
+        content: "";
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(148, 216, 42, 0.3),
+          transparent
+        );
+        border-radius: 13px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .partner-logo-container:hover::before {
+        opacity: 1;
+      }
+
+      /* Enhanced partner logo styling */
+      .partner-logo {
+        border: 2px solid transparent;
+        background-clip: padding-box;
+      }
+      .partner-logo:hover {
+        border-color: rgba(148, 216, 42, 0.4);
+      }
+
+      /* Fixed theme toggle button styling */
+      .fixed-theme-toggle {
+        animation: fadeInUp 0.5s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Theme transition improvements */
+      body,
+      .navbar,
+      .footer,
+      .card,
+      .btn {
+        transition: all 0.3s ease !important;
+      }
+
+      /* Light theme navbar adjustments */
+      [data-theme="light"] .navbar {
+        border-bottom: 2px solid rgba(11, 64, 91, 0.3) !important;
+      }
+
+      [data-theme="light"] .navbar .nav-link {
+        color: rgba(11, 64, 91, 0.8) !important;
+      }
+
+      [data-theme="light"] .navbar .nav-link:hover {
+        color: #0b405b !important;
+        background: rgba(11, 64, 91, 0.1) !important;
+      }
+
+      [data-theme="light"] .navbar .navbar-brand {
+        color: #0b405b !important;
+      }
+
+      [data-theme="light"] .fixed-theme-toggle {
+        background: linear-gradient(
+          135deg,
+          rgba(248, 249, 250, 0.95),
+          rgba(233, 236, 239, 0.95)
+        ) !important;
+        border-color: rgba(11, 64, 91, 0.6) !important;
+      }
+
+      [data-theme="light"] .fixed-theme-toggle i {
+        color: #0b405b !important;
+      }
+
+      /* Light theme footer fixes */
+      [data-theme="light"] .footer {
+        background: linear-gradient(
+          135deg,
+          #f8f9fa 0%,
+          #e9ecef 50%,
+          #dee2e6 100%
+        ) !important;
+        border-top: 3px solid rgba(11, 64, 91, 0.4) !important;
+      }
+
+      [data-theme="light"] .footer .text-light {
+        color: #1a202c !important;
+      }
+
+      [data-theme="light"] .footer .text-muted {
+        color: #4a5568 !important;
+      }
+
+      [data-theme="light"] .footer h4,
+      [data-theme="light"] .footer h5,
+      [data-theme="light"] .footer h6 {
+        color: #1a202c !important;
+      }
+
+      /* Theme button active states */
+      .theme-button-active {
+        background: rgba(148, 216, 42, 0.2) !important;
+        border-color: #94d82a !important;
+        transform: scale(0.95);
+      }
+
+      /* Light theme fixed button */
+      [data-theme="light"] .fixed-theme-toggle {
+        background: linear-gradient(
+          135deg,
+          rgba(248, 249, 250, 0.95),
+          rgba(233, 236, 239, 0.95)
+        ) !important;
+        border-color: rgba(11, 64, 91, 0.6) !important;
+      }
+
+      [data-theme="light"] .fixed-theme-toggle i {
+        color: #0b405b !important;
+      }
+
+      /* Ensure no spacing issues at the top */
+      html {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      body {
+        margin: 0 !important;
+        padding: 0 !important;
+        padding-top: 0 !important;
+      }
+
+      /* Force navbar to stick to top */
+      .navbar.fixed-top {
+        top: 0 !important;
+        margin-top: 0 !important;
+        position: fixed !important;
+      }
+
+      /* Ensure main content starts right after navbar */
+      main {
+        margin-top: 76px !important;
+        padding-top: 0 !important;
+      }
+
+      /* Remove any potential browser default margins */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Override any framework defaults that might add spacing */
+      .container-fluid:first-child,
+      .container:first-child,
+      section:first-child {
+        margin-top: 0 !important;
+      }
+    </style>
+
+    <!-- Main Content -->
+    <main
+      style="
+        margin-top: 76px !important;
+        min-height: calc(100vh - 76px);
+        padding-top: 0 !important;
+      "
+    >
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+          <i class="fas fa-info-circle me-2"></i>{{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+          ></button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </main>
+
+    <!-- Enhanced Footer -->
+    <footer
+      class="footer mt-5"
+      style="
+        background: linear-gradient(
+          135deg,
+          #0b405b 0%,
+          #1e293b 50%,
+          #0f172a 100%
+        );
+        border-top: 3px solid rgba(148, 216, 42, 0.4);
+        position: relative;
+        overflow: hidden;
+      "
+    >
+      <!-- Background Pattern -->
+      <div
+        style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-image: radial-gradient(
+              circle at 25% 25%,
+              rgba(148, 216, 42, 0.05) 0%,
+              transparent 50%
+            ),
+            radial-gradient(
+              circle at 75% 75%,
+              rgba(0, 206, 201, 0.05) 0%,
+              transparent 50%
+            );
+          pointer-events: none;
+        "
+      ></div>
+
+      <div class="container py-5 position-relative">
+        <!-- Main Footer Content -->
+        <div class="row g-4 mb-5">
+          <!-- Brand Section -->
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-brand mb-4">
+              <div class="d-flex align-items-center mb-3">
+                <div
+                  class="brand-icon me-3"
+                  style="
+                    background: linear-gradient(45deg, #ffc107, #fd7e14);
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 6px 20px rgba(255, 193, 7, 0.3);
+                  "
+                >
+                  <i
+                    class="fas fa-circle"
+                    style="color: white; font-size: 1.5rem"
+                  ></i>
+                </div>
+                <div>
+                  <h4
+                    class="mb-1"
+                    style="
+                      background: linear-gradient(45deg, #94d82a, #00cec9);
+                      -webkit-background-clip: text;
+                      -webkit-text-fill-color: transparent;
+                      background-clip: text;
+                      font-weight: 700;
+                    "
+                  >
+                    Snooker Detection Pro
+                  </h4>
+                  <small class="text-muted">AI-Powered Analytics</small>
+                </div>
+              </div>
+              <p class="text-light mb-3" style="line-height: 1.6; opacity: 0.9">
+                Revolutionary AI-powered snooker ball detection and tracking
+                system. Transforming how players analyze their game with
+                cutting-edge computer vision technology.
+              </p>
+              <div class="d-flex gap-3">
+                <span
+                  class="badge bg-success px-3 py-2"
+                  style="font-size: 0.8rem"
+                >
+                  <i class="fas fa-bolt me-1"></i>Real-time Analysis
+                </span>
+                <span class="badge bg-info px-3 py-2" style="font-size: 0.8rem">
+                  <i class="fas fa-eye me-1"></i>85%+ Accuracy
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Technology Stack -->
+          <div class="col-lg-3 col-md-6">
+            <h5
+              class="text-light mb-4"
+              style="font-weight: 600; color: #94d82a !important"
+            >
+              <i class="fas fa-cogs me-2"></i>Technology Stack
+            </h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <i class="fas fa-brain me-2 text-warning"></i>
+                <span class="text-light">YOLO Object Detection</span>
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-camera me-2 text-info"></i>
+                <span class="text-light">OpenCV Computer Vision</span>
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-chart-line me-2 text-success"></i>
+                <span class="text-light">Advanced Analytics</span>
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-rocket me-2 text-danger"></i>
+                <span class="text-light">Real-time Processing</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="col-lg-2 col-md-6">
+            <h5
+              class="text-light mb-4"
+              style="font-weight: 600; color: #94d82a !important"
+            >
+              <i class="fas fa-link me-2"></i>Quick Links
+            </h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <a
+                  href="{{ url_for('index') }}"
+                  class="text-light text-decoration-none footer-link"
+                >
+                  <i class="fas fa-home me-2"></i>Dashboard
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  href="{{ url_for('upload_page') }}"
+                  class="text-light text-decoration-none footer-link"
+                >
+                  <i class="fas fa-upload me-2"></i>Analyze Video
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  href="#"
+                  onclick="checkSystemStatus()"
+                  class="text-light text-decoration-none footer-link"
+                >
+                  <i class="fas fa-heartbeat me-2"></i>System Status
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact & Support -->
+          <div class="col-lg-3 col-md-6">
+            <h5
+              class="text-light mb-4"
+              style="font-weight: 600; color: #94d82a !important"
+            >
+              <i class="fas fa-headset me-2"></i>Support & Info
+            </h5>
+            <div class="mb-3">
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-shield-alt me-2 text-success"></i>
+                <span class="text-light">Enterprise Security</span>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-clock me-2 text-info"></i>
+                <span class="text-light">24/7 Processing</span>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-users me-2 text-warning"></i>
+                <span class="text-light">Global Community</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Partner Logos Section -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="text-center mb-4">
+              <h6
+                class="text-muted mb-3"
+                style="
+                  font-weight: 500;
+                  text-transform: uppercase;
+                  letter-spacing: 1px;
+                "
+              >
+                <i class="fas fa-handshake me-2"></i>Trusted Technology Partners
+              </h6>
+              <div
+                class="partner-logos-container d-flex justify-content-center align-items-center flex-wrap gap-4"
+              >
+                <div class="partner-logo-item">
+                  <img
+                    src="/common_logo/color-logo1.png"
+                    alt="Technology Partner"
+                    class="footer-partner-logo company-logo-tooltip"
+                    data-company="AI & Machine Learning Partner"
+                    style="
+                      height: 60px;
+                      width: auto;
+                      opacity: 0.7;
+                      filter: brightness(1.1) contrast(1.1);
+                      transition: all 0.4s ease;
+                      border-radius: 12px;
+                      padding: 8px;
+                      background: rgba(255, 255, 255, 0.05);
+                    "
+                    onmouseover="this.style.opacity='1'; this.style.transform='scale(1.1) translateY(-5px)'; this.style.background='rgba(148, 216, 42, 0.1)'; this.style.boxShadow='0 10px 30px rgba(148, 216, 42, 0.2)'"
+                    onmouseout="this.style.opacity='0.7'; this.style.transform='scale(1) translateY(0)'; this.style.background='rgba(255,255,255,0.05)'; this.style.boxShadow='none'"
+                    onerror="this.style.display='none'; console.log('Logo failed to load:', this.src);"
+                  />
+                </div>
+                <div class="partner-logo-item">
+                  <img
+                    src="/common_logo/color-logo2.png"
+                    alt="Innovation Partner"
+                    class="footer-partner-logo company-logo-tooltip"
+                    data-company="Innovation & Development Partner"
+                    style="
+                      height: 60px;
+                      width: auto;
+                      opacity: 0.7;
+                      filter: brightness(1.1) contrast(1.1);
+                      transition: all 0.4s ease;
+                      border-radius: 12px;
+                      padding: 8px;
+                      background: rgba(255, 255, 255, 0.05);
+                    "
+                    onmouseover="this.style.opacity='1'; this.style.transform='scale(1.1) translateY(-5px)'; this.style.background='rgba(0, 206, 201, 0.1)'; this.style.boxShadow='0 10px 30px rgba(0, 206, 201, 0.2)'"
+                    onmouseout="this.style.opacity='0.7'; this.style.transform='scale(1) translateY(0)'; this.style.background='rgba(255,255,255,0.05)'; this.style.boxShadow='none'"
+                    onerror="this.style.display='none'; console.log('Logo failed to load:', this.src);"
+                  />
+                </div>
+                <div class="partner-logo-item">
+                  <img
+                    src="/common_logo/color-logo3.png"
+                    alt="Strategic Partner"
+                    class="footer-partner-logo company-logo-tooltip"
+                    data-company="Strategic Technology Partner"
+                    style="
+                      height: 60px;
+                      width: auto;
+                      opacity: 0.7;
+                      filter: brightness(1.1) contrast(1.1);
+                      transition: all 0.4s ease;
+                      border-radius: 12px;
+                      padding: 8px;
+                      background: rgba(255, 255, 255, 0.05);
+                    "
+                    onmouseover="this.style.opacity='1'; this.style.transform='scale(1.1) translateY(-5px)'; this.style.background='rgba(255, 193, 7, 0.1)'; this.style.boxShadow='0 10px 30px rgba(255, 193, 7, 0.2)'"
+                    onmouseout="this.style.opacity='0.7'; this.style.transform='scale(1) translateY(0)'; this.style.background='rgba(255,255,255,0.05)'; this.style.boxShadow='none'"
+                    onerror="this.style.display='none'; console.log('Logo failed to load:', this.src);"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div
+          class="row pt-4"
+          style="border-top: 1px solid rgba(148, 216, 42, 0.2)"
+        >
+          <div class="col-md-6">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-copyright me-2 text-muted"></i>
+              <span class="text-light">© 2025 Snooker Detection Pro</span>
+              <span class="mx-2 text-muted">•</span>
+              <span class="text-muted">All rights reserved</span>
+            </div>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <div class="d-flex align-items-center justify-content-md-end">
+              <span class="text-muted me-3">Powered by</span>
+              <span
+                class="badge bg-gradient"
+                style="
+                  background: linear-gradient(45deg, #94d82a, #00cec9);
+                  font-weight: 500;
+                "
+              >
+                <i class="fas fa-brain me-1"></i>YOLO & OpenCV
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Custom Styles -->
+      <style>
+        .footer-link {
+          transition: all 0.3s ease;
+          opacity: 0.8;
+        }
+        .footer-link:hover {
+          color: #94d82a !important;
+          opacity: 1;
+          transform: translateX(5px);
+        }
+        .partner-logo-item {
+          position: relative;
+        }
+        .partner-logo-item::before {
+          content: "";
+          position: absolute;
+          top: -3px;
+          left: -3px;
+          right: -3px;
+          bottom: -3px;
+          background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(148, 216, 42, 0.3),
+            transparent
+          );
+          border-radius: 15px;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: -1;
+        }
+        .partner-logo-item:hover::before {
+          opacity: 1;
+        }
+      </style>
+    </footer>
+
+    <!-- Single Fixed Theme Toggle Button -->
+    <div
+      id="fixedThemeToggle"
+      class="fixed-theme-toggle"
+      style="
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1050;
+        background: linear-gradient(
+          135deg,
+          rgba(11, 64, 91, 0.95),
+          rgba(30, 41, 59, 0.95)
+        );
+        border: 2px solid rgba(148, 216, 42, 0.6);
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      "
+      onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='#94D82A'; this.style.boxShadow='0 6px 30px rgba(148, 216, 42, 0.4)'"
+      onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(148, 216, 42, 0.6)'; this.style.boxShadow='0 4px 20px rgba(0, 0, 0, 0.3)'"
+      title="Toggle Theme"
+    >
+      <i
+        id="fixedThemeIcon"
+        class="fas fa-moon"
+        style="color: #94d82a; font-size: 1.2rem"
+      ></i>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Industry Standard Enhancements -->
+    <script src="{{ url_for('static', filename='js/industry-standard-enhancements.js') }}"></script>
+    <!-- Theme Management System -->
+    <script src="{{ url_for('static', filename='js/theme-persistence.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme-manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme-switcher.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/logo-manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/accessibility-enhancer.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme-performance-optimizer.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/brand-compliance-validator.js') }}"></script>
+    <!-- Custom Snooker UI JavaScript -->
+    <script src="{{ url_for('static', filename='js/snooker-ui.js') }}"></script>
+    <!-- Company Logo Management -->
+    <script src="{{ url_for('static', filename='js/company-logo-manager.js') }}"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+      // System status check
+      async function checkSystemStatus() {
+        try {
+          const response = await fetch("/api/status");
+          const status = await response.json();
+
+          let statusHtml =
+            '<div class="modal fade" id="statusModal" tabindex="-1">';
+          statusHtml +=
+            '<div class="modal-dialog"><div class="modal-content bg-dark text-white">';
+          statusHtml +=
+            '<div class="modal-header"><h5 class="modal-title">System Status</h5>';
+          statusHtml +=
+            '<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>';
+          statusHtml += '<div class="modal-body">';
+          statusHtml += '<div class="row">';
+          statusHtml +=
+            '<div class="col-md-6"><strong>Detection Engine:</strong></div>';
+          statusHtml +=
+            '<div class="col-md-6"><span class="badge bg-success">Ready</span></div>';
+          statusHtml += "</div><hr>";
+          statusHtml += '<div class="row">';
+          statusHtml +=
+            '<div class="col-md-6"><strong>Frames Processed:</strong></div>';
+          statusHtml +=
+            '<div class="col-md-6">' +
+            (status.frames_processed || 0) +
+            "</div>";
+          statusHtml += "</div>";
+          statusHtml += "</div></div></div></div>";
+
+          document.body.insertAdjacentHTML("beforeend", statusHtml);
+          new bootstrap.Modal(document.getElementById("statusModal")).show();
+
+          // Clean up modal after hiding
+          document
+            .getElementById("statusModal")
+            .addEventListener("hidden.bs.modal", function () {
+              this.remove();
+            });
+        } catch (error) {
+          alert("Failed to fetch system status: " + error.message);
+        }
+      }
+
+      // Professional Theme Management System
+      let themeManager = null;
+      let themeSwitcher = null;
+      let currentTheme = "dark";
+
+      // Initialize theme system
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize ThemeManager
+        themeManager = new ThemeManager({
+          defaultTheme: "dark",
+          storageKey: "snooker-theme-preference",
+          transitionDuration: 300,
+        });
+
+        // Get current theme from manager
+        currentTheme = themeManager.getCurrentTheme();
+
+        // Setup theme toggle buttons with proper integration
+        setupThemeToggles();
+
+        // Apply initial theme styling
+        applyThemeStyles(currentTheme);
+
+        // Listen for theme changes from ThemeManager
+        themeManager.addObserver((event, data) => {
+          if (event === "themeChanged") {
+            currentTheme = data.to;
+            applyThemeStyles(currentTheme);
+            updateThemeButtons(currentTheme);
+          }
+        });
+
+        console.log("🎨 Professional theme system initialized successfully");
+
+        // Make checkSystemStatus globally available
+        window.checkSystemStatus = checkSystemStatus;
+      });
+
+      // Apply theme styles (called by ThemeManager)
+      function applyThemeStyles(theme) {
+        // Update navbar styling based on theme
+        updateNavbarStyling(theme);
+
+        // Update all theme-dependent elements
+        updateThemeElements(theme);
+
+        console.log("🎨 Theme styles applied:", theme);
+      }
+
+      // Update all theme buttons
+      function updateThemeButtons(theme) {
+        updateNavbarThemeButton(theme);
+        updateFixedThemeButton(theme);
+      }
+
+      // Update navbar theme button
+      function updateNavbarThemeButton(theme) {
+        const icon = document.getElementById("navbarThemeIcon");
+        const text = document.getElementById("navbarThemeText");
+
+        if (icon && text) {
+          if (theme === "dark") {
+            icon.className = "fas fa-sun me-1";
+            text.textContent = "Light";
+          } else {
+            icon.className = "fas fa-moon me-1";
+            text.textContent = "Dark";
+          }
+        }
+      }
+
+      // Update fixed theme button
+      function updateFixedThemeButton(theme) {
+        const icon = document.getElementById("fixedThemeIcon");
+        const button = document.getElementById("fixedThemeToggle");
+
+        if (icon && button) {
+          if (theme === "dark") {
+            icon.className = "fas fa-sun";
+            button.style.background =
+              "linear-gradient(135deg, rgba(11, 64, 91, 0.95), rgba(30, 41, 59, 0.95))";
+            button.style.borderColor = "rgba(148, 216, 42, 0.6)";
+            icon.style.color = "#94D82A";
+          } else {
+            icon.className = "fas fa-moon";
+            button.style.background =
+              "linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(233, 236, 239, 0.95))";
+            button.style.borderColor = "rgba(11, 64, 91, 0.6)";
+            icon.style.color = "#0B405B";
+          }
+        }
+      }
+
+      // Update navbar styling based on theme
+      function updateNavbarStyling(theme) {
+        const navbar = document.querySelector(".navbar");
+        if (navbar) {
+          if (theme === "light") {
+            navbar.style.background =
+              "linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(233, 236, 239, 0.95)) !important";
+            navbar.classList.remove("navbar-dark");
+            navbar.classList.add("navbar-light");
+          } else {
+            navbar.style.background =
+              "linear-gradient(135deg, rgba(11, 64, 91, 0.95), rgba(30, 41, 59, 0.95)) !important";
+            navbar.classList.remove("navbar-light");
+            navbar.classList.add("navbar-dark");
+          }
+        }
+      }
+
+      // Update all theme-dependent elements
+      function updateThemeElements(theme) {
+        // Force update all themed elements
+        updateAllThemedElements(theme);
+
+        // Force a repaint to ensure all elements update immediately
+        document.body.style.display = "none";
+        document.body.offsetHeight; // Trigger reflow
+        document.body.style.display = "";
+      }
+
+      // Update all themed elements
+      function updateAllThemedElements(theme) {
+        // Update modals
+        const modals = document.querySelectorAll(".modal-content");
+        modals.forEach((modal) => {
+          if (theme === "light") {
+            modal.style.background = "#ffffff";
+            modal.style.color = "#1a202c";
+          } else {
+            modal.style.background = "#2d3748";
+            modal.style.color = "#ffffff";
+          }
+        });
+
+        // Update cards
+        const cards = document.querySelectorAll(
+          ".card, .stat-item, .card-feature"
+        );
+        cards.forEach((card) => {
+          if (theme === "light") {
+            card.style.background = "#ffffff";
+            card.style.color = "#1a202c";
+            card.style.border = "1px solid #e2e8f0";
+          } else {
+            card.style.background = "#2d3748";
+            card.style.color = "#ffffff";
+            card.style.border = "1px solid #4a5568";
+          }
+        });
+
+        // Update sections with bg-dark
+        const darkSections = document.querySelectorAll(".bg-dark");
+        darkSections.forEach((section) => {
+          if (theme === "light") {
+            section.style.background = "#f8f9fa";
+            section.style.color = "#1a202c";
+          } else {
+            section.style.background = "#1a202c";
+            section.style.color = "#ffffff";
+          }
+        });
+
+        // Update logos for theme
+        const logos = document.querySelectorAll(
+          ".partner-logo, .navbar-company-logo, .footer-company-logo, .footer-partner-logo, .powered-by-logo, .company-logo"
+        );
+        logos.forEach((logo) => {
+          if (theme === "light") {
+            logo.style.opacity = "1";
+            logo.style.filter = "brightness(0.8) contrast(1.2)";
+            logo.style.background = "rgba(248, 249, 250, 0.8)";
+            logo.style.border = "1px solid rgba(11, 64, 91, 0.1)";
+          } else {
+            logo.style.opacity = "0.9";
+            logo.style.filter = "brightness(1.2) contrast(1.2)";
+            logo.style.background = "rgba(255,255,255,0.08)";
+            logo.style.border = "2px solid transparent";
+          }
+        });
+      }
+
+      // Setup theme toggle buttons
+      function setupThemeToggles() {
+        // Navbar theme toggle
+        const navbarToggle = document.getElementById("navbarThemeToggle");
+        if (navbarToggle) {
+          navbarToggle.addEventListener("click", toggleTheme);
+        }
+
+        // Fixed theme toggle
+        const fixedToggle = document.getElementById("fixedThemeToggle");
+        if (fixedToggle) {
+          fixedToggle.addEventListener("click", toggleTheme);
+        }
+      }
+
+      // Toggle theme function using ThemeManager
+      function toggleTheme() {
+        if (!themeManager) {
+          console.error("ThemeManager not initialized");
+          return;
+        }
+
+        // Add visual feedback to the clicked button
+        const button =
+          event.target.closest("button") || event.target.closest("div");
+        if (button) {
+          button.classList.add("theme-button-active");
+          setTimeout(() => {
+            button.classList.remove("theme-button-active");
+          }, 200);
+        }
+
+        // Use ThemeManager to toggle theme
+        themeManager.toggleTheme();
+
+        console.log("🎨 Theme toggled via ThemeManager");
+      }
+
+      // Global theme toggle function for backward compatibility
+      window.toggleTheme = toggleTheme;
+
+      // Ball type color mapping
+      const ballColors = {
+        "Cue Ball": "#ffffff",
+        Red: "#dc3545",
+        Yellow: "#ffc107",
+        Green: "#28a745",
+        Brown: "#8b4513",
+        Blue: "#007bff",
+        Pink: "#e83e8c",
+        Black: "#000000",
+      };
+
+      // Utility function to format time
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, "0")}`;
+      }
+
+      // Utility function to format file size
+      function formatFileSize(bytes) {
+        if (bytes === 0) return "0 Bytes";
+        const k = 1024;
+        const sizes = ["Bytes", "KB", "MB", "GB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+      }
+    </script>
+
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

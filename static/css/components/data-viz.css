@@ -1,0 +1,582 @@
+/**
+ * Data Visualization Components - Snooker Detection Pro
+ * Theme-aware data visualization styling with sports-inspired design
+ * Charts, graphs, and analytics display components
+ */
+
+/* ===== BASE CHART CONTAINER ===== */
+.chart-container {
+    background: var(--chart-bg);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-container:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.chart-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-accent);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.chart-container:hover::before {
+    opacity: 1;
+}
+
+/* ===== CHART HEADER ===== */
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border-primary);
+}
+
+.chart-title {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.chart-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: var(--space-2) 0 0 0;
+    font-weight: var(--font-weight-normal);
+}
+
+.chart-actions {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.chart-legend-toggle,
+.chart-fullscreen-btn,
+.chart-export-btn {
+    padding: var(--space-2);
+    background: var(--surface-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.chart-legend-toggle:hover,
+.chart-fullscreen-btn:hover,
+.chart-export-btn:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+    transform: scale(1.05);
+}
+
+/* ===== STATISTICS DISPLAY ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.stat-item {
+    background: var(--surface-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    text-align: center;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-accent);
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: var(--font-weight-black);
+    color: var(--text-accent);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-change {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    margin-top: var(--space-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+}
+
+.stat-change.positive {
+    color: var(--success);
+}
+
+.stat-change.negative {
+    color: var(--error);
+}
+
+.stat-change.neutral {
+    color: var(--text-muted);
+}
+
+/* ===== SPORTS-INSPIRED STAT VARIANTS ===== */
+.stat-energy {
+    border-left: 4px solid var(--secondary);
+    background: var(--gradient-card);
+}
+
+.stat-victory {
+    border: 2px solid var(--success-border);
+    background: var(--success-bg);
+}
+
+.stat-victory .stat-value {
+    color: var(--success);
+}
+
+.stat-champion {
+    background: var(--gradient-card);
+    border: 2px solid var(--primary);
+    position: relative;
+}
+
+.stat-champion::after {
+    content: '🏆';
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    font-size: 1.2rem;
+    opacity: 0.3;
+}
+
+/* ===== PROGRESS INDICATORS ===== */
+.progress-chart {
+    margin-bottom: var(--space-6);
+}
+
+.progress-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+    padding: var(--space-4);
+    background: var(--surface-primary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-primary);
+    transition: all var(--transition-normal);
+}
+
+.progress-item:hover {
+    background: var(--surface-hover);
+    transform: translateX(4px);
+}
+
+.progress-label {
+    flex: 0 0 120px;
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.progress-bar-container {
+    flex: 1;
+    height: var(--space-4);
+    background: var(--neutral-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-energy);
+    border-radius: inherit;
+    transition: width var(--transition-slow);
+    position: relative;
+}
+
+.progress-bar-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        transparent 25%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        transparent 75%);
+    animation: progressShine 2s infinite;
+}
+
+.progress-value {
+    flex: 0 0 60px;
+    text-align: right;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-accent);
+    font-size: 0.9rem;
+}
+
+/* ===== BALL DETECTION VISUALIZATION ===== */
+.ball-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+}
+
+.ball-stat-item {
+    background: var(--surface-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    text-align: center;
+    transition: all var(--transition-normal);
+    position: relative;
+}
+
+.ball-stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.ball-indicator {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto var(--space-3);
+    border: 3px solid #ffffff;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+}
+
+.ball-indicator::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+
+/* Ball color variants */
+.ball-cue { background-color: #ffffff; }
+.ball-red { background-color: #dc3545; }
+.ball-yellow { background-color: #ffc107; }
+.ball-green { background-color: #28a745; }
+.ball-brown { background-color: #8b4513; }
+.ball-blue { background-color: #007bff; }
+.ball-pink { background-color: #e83e8c; }
+.ball-black { background-color: #000000; }
+
+.ball-count {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+}
+
+.ball-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+/* ===== TIMELINE VISUALIZATION ===== */
+.timeline-chart {
+    position: relative;
+    padding: var(--space-6) 0;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-6);
+    position: relative;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 40px;
+    bottom: -24px;
+    width: 2px;
+    background: var(--border-primary);
+}
+
+.timeline-item:last-child::before {
+    display: none;
+}
+
+.timeline-marker {
+    flex: 0 0 40px;
+    height: 40px;
+    background: var(--secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-inverse);
+    font-weight: var(--font-weight-bold);
+    box-shadow: var(--shadow-md);
+    z-index: 1;
+    position: relative;
+}
+
+.timeline-content {
+    flex: 1;
+    margin-left: var(--space-4);
+    background: var(--surface-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+}
+
+.timeline-time {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+.timeline-title {
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: var(--space-1) 0;
+}
+
+.timeline-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ===== HEATMAP VISUALIZATION ===== */
+.heatmap-container {
+    background: var(--surface-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    overflow: auto;
+}
+
+.heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 2px;
+    min-width: 400px;
+}
+
+.heatmap-cell {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    position: relative;
+}
+
+.heatmap-cell:hover {
+    transform: scale(1.1);
+    z-index: 1;
+    box-shadow: var(--shadow-md);
+}
+
+.heatmap-cell[data-intensity="0"] { background: var(--neutral-100); }
+.heatmap-cell[data-intensity="1"] { background: rgba(148, 216, 42, 0.2); }
+.heatmap-cell[data-intensity="2"] { background: rgba(148, 216, 42, 0.4); }
+.heatmap-cell[data-intensity="3"] { background: rgba(148, 216, 42, 0.6); }
+.heatmap-cell[data-intensity="4"] { background: rgba(148, 216, 42, 0.8); }
+.heatmap-cell[data-intensity="5"] { background: rgba(148, 216, 42, 1); }
+
+/* ===== CHART LEGENDS ===== */
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-primary);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-primary);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: var(--space-3);
+    }
+    
+    .ball-stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: var(--space-2);
+    }
+    
+    .chart-container {
+        padding: var(--space-4);
+    }
+    
+    .chart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+    }
+    
+    .chart-actions {
+        align-self: stretch;
+        justify-content: space-between;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    .progress-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-2);
+    }
+    
+    .progress-label {
+        flex: none;
+        text-align: center;
+    }
+    
+    .progress-value {
+        flex: none;
+        text-align: center;
+    }
+    
+    .timeline-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .timeline-content {
+        margin-left: 0;
+        margin-top: var(--space-3);
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ball-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .chart-container {
+        padding: var(--space-3);
+    }
+    
+    .stat-value {
+        font-size: 1.8rem;
+    }
+    
+    .ball-indicator {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .ball-count {
+        font-size: 1.2rem;
+    }
+    
+    .heatmap-grid {
+        grid-template-columns: repeat(8, 1fr);
+        min-width: 300px;
+    }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+.chart-container:focus {
+    outline: 2px solid var(--focus-green);
+    outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .chart-container,
+    .stat-item,
+    .progress-item {
+        border-width: 2px;
+    }
+    
+    .ball-indicator {
+        border-width: 4px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .chart-container:hover,
+    .stat-item:hover,
+    .progress-item:hover,
+    .ball-stat-item:hover,
+    .heatmap-cell:hover {
+        transform: none;
+    }
+    
+    .progress-bar-fill::before {
+        animation: none;
+    }
+    
+    .progress-bar-fill {
+        transition: none;
+    }
+}

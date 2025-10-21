@@ -1,0 +1,514 @@
+/**
+ * Button Components - Snooker Detection Pro
+ * Theme-aware button styling with sports-inspired design
+ * Energetic and engaging button variations
+ */
+
+/* ===== BASE BUTTON COMPONENT ===== */
+.btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-lg);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.5;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.btn-base:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn-base::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left var(--transition-normal);
+}
+
+.btn-base:hover::before {
+    left: 100%;
+}
+
+/* ===== PRIMARY BUTTON ===== */
+.btn-primary-themed {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border-color: var(--btn-primary-bg);
+}
+
+.btn-primary-themed:hover {
+    background: var(--btn-primary-hover);
+    border-color: var(--btn-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--glow-blue);
+}
+
+.btn-primary-themed:active {
+    background: var(--btn-primary-active);
+    transform: translateY(0);
+}
+
+.btn-primary-themed:focus {
+    outline: 2px solid var(--focus-green);
+    outline-offset: 2px;
+    box-shadow: var(--focus-ring);
+}
+
+/* ===== SECONDARY BUTTON ===== */
+.btn-secondary-themed {
+    background: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    border-color: var(--btn-secondary-bg);
+}
+
+.btn-secondary-themed:hover {
+    background: var(--btn-secondary-hover);
+    border-color: var(--btn-secondary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--glow-green);
+}
+
+.btn-secondary-themed:active {
+    background: var(--btn-secondary-active);
+    transform: translateY(0);
+}
+
+.btn-secondary-themed:focus {
+    outline: 2px solid var(--focus-green);
+    outline-offset: 2px;
+    box-shadow: var(--focus-ring);
+}
+
+/* ===== OUTLINE BUTTON ===== */
+.btn-outline-themed {
+    background: transparent;
+    color: var(--btn-outline-text);
+    border-color: var(--btn-outline-border);
+}
+
+.btn-outline-themed:hover {
+    background: var(--btn-outline-hover-bg);
+    color: var(--btn-outline-hover-text);
+    transform: translateY(-2px);
+}
+
+.btn-outline-themed:focus {
+    outline: 2px solid var(--focus-green);
+    outline-offset: 2px;
+}
+
+/* ===== GHOST BUTTON ===== */
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    border: none;
+    padding: var(--space-2) var(--space-4);
+}
+
+.btn-ghost:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+/* ===== SPORTS-INSPIRED BUTTON VARIANTS ===== */
+
+/* Energy Button - High-energy design */
+.btn-energy {
+    background: var(--gradient-energy);
+    color: var(--text-inverse);
+    border: none;
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn-energy:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--glow-green);
+    animation: energyPulse 0.6s ease-out;
+}
+
+.btn-energy::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-energy);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.btn-energy:hover::after {
+    opacity: 0.2;
+}
+
+/* Victory Button - Success/achievement design */
+.btn-victory {
+    background: var(--gradient-victory);
+    color: var(--text-inverse);
+    border: none;
+    font-weight: var(--font-weight-bold);
+}
+
+.btn-victory:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--glow-green);
+    animation: victoryBounce 0.6s ease-out;
+}
+
+/* Champion Button - Premium/featured design */
+.btn-champion {
+    background: var(--gradient-champion);
+    color: var(--text-inverse);
+    border: none;
+    font-weight: var(--font-weight-bold);
+    position: relative;
+}
+
+.btn-champion::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: var(--gradient-champion);
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0.3;
+    filter: blur(4px);
+}
+
+.btn-champion:hover {
+    transform: translateY(-3px) scale(1.05);
+    animation: championGlow 1s ease-in-out;
+}
+
+/* Action Button - Call-to-action design */
+.btn-action {
+    background: var(--primary);
+    color: var(--text-inverse);
+    border: none;
+    font-weight: var(--font-weight-bold);
+    animation: actionSlide 0.5s ease-out;
+}
+
+.btn-action:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: var(--glow-blue);
+}
+
+/* ===== BUTTON SIZES ===== */
+
+/* Small button */
+.btn-sm {
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.875rem;
+    border-radius: var(--radius-md);
+}
+
+/* Large button */
+.btn-lg {
+    padding: var(--space-4) var(--space-8);
+    font-size: 1.125rem;
+    border-radius: var(--radius-xl);
+}
+
+/* Extra large button */
+.btn-xl {
+    padding: var(--space-5) var(--space-10);
+    font-size: 1.25rem;
+    border-radius: var(--radius-2xl);
+}
+
+/* Full width button */
+.btn-full {
+    width: 100%;
+}
+
+/* ===== BUTTON GROUPS ===== */
+.btn-group {
+    display: inline-flex;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-group .btn-base {
+    border-radius: 0;
+    border-right-width: 0;
+}
+
+.btn-group .btn-base:first-child {
+    border-top-left-radius: var(--radius-lg);
+    border-bottom-left-radius: var(--radius-lg);
+}
+
+.btn-group .btn-base:last-child {
+    border-top-right-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+    border-right-width: 1px;
+}
+
+.btn-group .btn-base:hover {
+    z-index: 1;
+    transform: none;
+}
+
+/* ===== ICON BUTTONS ===== */
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon-sm {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-icon-lg {
+    width: 48px;
+    height: 48px;
+}
+
+.btn-icon .icon {
+    font-size: 1.2rem;
+}
+
+/* ===== FLOATING ACTION BUTTON ===== */
+.btn-fab {
+    position: fixed;
+    bottom: var(--space-6);
+    right: var(--space-6);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--secondary);
+    color: var(--text-inverse);
+    border: none;
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-fixed);
+    transition: all var(--transition-normal);
+}
+
+.btn-fab:hover {
+    transform: scale(1.1);
+    box-shadow: var(--glow-green);
+}
+
+.btn-fab .icon {
+    font-size: 1.5rem;
+}
+
+/* ===== LOADING STATES ===== */
+.btn-loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.btn-loading.btn-sm::after {
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+}
+
+.btn-loading.btn-lg::after {
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+}
+
+/* ===== BUTTON WITH BADGE ===== */
+.btn-with-badge {
+    position: relative;
+}
+
+.btn-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 var(--space-1);
+    background: var(--error);
+    color: white;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: energyPulse 2s infinite;
+}
+
+/* ===== TOGGLE BUTTON ===== */
+.btn-toggle {
+    background: var(--surface-primary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-primary);
+}
+
+.btn-toggle.active {
+    background: var(--primary);
+    color: var(--text-inverse);
+    border-color: var(--primary);
+}
+
+.btn-toggle:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-secondary);
+}
+
+.btn-toggle.active:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+/* ===== DROPDOWN BUTTON ===== */
+.btn-dropdown {
+    position: relative;
+}
+
+.btn-dropdown-arrow {
+    margin-left: var(--space-2);
+    font-size: 0.8rem;
+    transition: transform var(--transition-normal);
+}
+
+.btn-dropdown.open .btn-dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .btn-base {
+        padding: var(--space-3) var(--space-5);
+        font-size: 0.9rem;
+    }
+    
+    .btn-lg {
+        padding: var(--space-4) var(--space-6);
+        font-size: 1rem;
+    }
+    
+    .btn-xl {
+        padding: var(--space-4) var(--space-8);
+        font-size: 1.125rem;
+    }
+    
+    .btn-fab {
+        bottom: var(--space-4);
+        right: var(--space-4);
+        width: 48px;
+        height: 48px;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn-group .btn-base {
+        border-right-width: 1px;
+        border-bottom-width: 0;
+    }
+    
+    .btn-group .btn-base:first-child {
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    
+    .btn-group .btn-base:last-child {
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        border-bottom-width: 1px;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-base {
+        padding: var(--space-2) var(--space-4);
+        font-size: 0.875rem;
+    }
+    
+    .btn-sm {
+        padding: var(--space-1) var(--space-3);
+        font-size: 0.8rem;
+    }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+.btn-base:focus-visible {
+    outline: 2px solid var(--focus-green);
+    outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .btn-base {
+        border-width: 2px;
+    }
+    
+    .btn-outline-themed {
+        border-width: 3px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .btn-base:hover,
+    .btn-energy:hover,
+    .btn-victory:hover,
+    .btn-champion:hover,
+    .btn-action:hover {
+        transform: none;
+        animation: none;
+    }
+    
+    .btn-loading::after {
+        animation: none;
+    }
+    
+    .btn-badge {
+        animation: none;
+    }
+    
+    .btn-base::before {
+        transition: none;
+    }
+}

@@ -1,0 +1,49 @@
+# Snooker Detection System Configuration
+# Generated configuration template
+
+# Ball Detection Configuration
+detection:
+  model_path: "models/best.pt"
+  confidence_threshold: 0.2
+  nms_threshold: 0.5
+  input_size: [640, 640]
+  device: "cpu"
+
+# Ball Tracking Configuration
+tracking:
+  max_disappeared_frames: 10
+  max_tracking_distance: 50.0
+  kalman_process_noise: 0.1
+  kalman_measurement_noise: 0.1
+  trajectory_smoothing: true
+
+# Table Calibration Configuration
+calibration:
+  table_length: 3.569
+  table_width: 1.778
+  auto_recalibrate: true
+  calibration_interval: 100
+  corner_detection_threshold: 0.1
+
+# System Configuration
+system:
+  debug_mode: false
+  save_debug_frames: false
+  output_directory: "output"
+  log_level: "INFO"
+  max_threads: 4
+
+# Performance Configuration
+performance:
+  target_fps: 30.0
+  frame_skip_threshold: 0.1
+  memory_limit_mb: 2048
+
+# Visualization Configuration
+visualization:
+  enable_overlay: true
+  show_detections: true
+  show_tracking: true
+  show_calibration: true
+  trajectory_length: 20
+

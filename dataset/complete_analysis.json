@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "export_timestamp": 1760982505.4697762,
+    "total_frames": 100,
+    "video_source": {
+      "source_type": "file",
+      "source_path": "C:\\Users\\Manoj\\Downloads\\Snooker\\dataset\\sample_snooker.mp4",
+      "width": 640,
+      "height": 360,
+      "fps": 30.0,
+      "total_frames": 5140,
+      "current_frame": 5140,
+      "is_opened": true,
+      "duration_seconds": 171.33333333333334,
+      "progress_percent": 100.0
+    },
+    "system_config": {
+      "detection_threshold": 0.2,
+      "tracking_config": {
+        "max_distance": 50.0,
+        "max_disappeared": 10
+      }
+    }
+  },
+  "analysis_results": [
+    {
+      "frame_number": 5040,
+      "timestamp": 1760982437.3427796,
+      "processing_time": 0.16108441352844238,
+      "detections": [
+        {
+          "ball_type": "CUE_BALL",
+          "confidence": 0.5135815143585205,
+          "position": {
+            "x": 374.0,
+            "y": 250.5
+          },
+          "bbox": {
+            "x1": 
